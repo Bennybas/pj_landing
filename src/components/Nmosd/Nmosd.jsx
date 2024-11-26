@@ -1,7 +1,8 @@
 import React, {useState} from 'react';
 import JourneyStage from '../JourneyStage/JourneyStage';
 import EconomicImpact from '../EconomicImpact/EconomicImpact';
-import { journeyData } from '../../data/journeyData';
+import { journeyData } from '../../Germandata/journeyData';
+
 
 
 const NmosD = () => {
@@ -21,25 +22,36 @@ const NmosD = () => {
       <div className="absolute top-11 right-20 z-10">
           <button 
             onClick={toggleCountry}
-            className="relative flex items-center bg-gray-200 rounded-full p-1 w-36 h-8 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="relative flex items-center bg-gray-100 border border-gray-200 rounded-full p-1 w-40 h-10 shadow-sm transition-all duration-300 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500/50"
             aria-label="Toggle Country"
           >
+            {/* Sliding background */}
             <div 
-              className={`w-1/2 h-5 rounded-full bg-white shadow-md transform transition-transform ${
+              className={`absolute inset-0 bg-blue-100 rounded-full transform transition-all duration-300 ${
+                selectedCountry === 'germany' ? 'translate-x-0 w-1/2' : 'translate-x-full w-1/2'
+              }`}
+            />
+
+            {/* Sliding toggle */}
+            <div 
+              className={`absolute z-10 w-1/2 h-7 bg-white rounded-full shadow-md transform transition-transform ease-in-out duration-300 ${
                 selectedCountry === 'germany' ? 'translate-x-0' : 'translate-x-full'
               }`}
             />
+
+            {/* Germany Label */}
             <span
-              className={`absolute left-1.5 text-xs font-medium transition-colors ${
-                selectedCountry === 'germany' ? 'text-blue-600' : 'text-gray-400'
+              className={`relative z-20 w-1/2 text-center text-xs font-semibold transition-colors duration-300 ${
+                selectedCountry === 'germany' ? 'text-blue-800' : 'text-gray-500'
               }`}
             >
               Germany
             </span>
 
+            {/* France Label */}
             <span
-              className={`absolute right-1.5 text-xs font-medium transition-colors ${
-                selectedCountry === 'france' ? 'text-blue-600' : 'text-gray-400'
+              className={`relative z-20 w-1/2 text-center text-xs font-semibold transition-colors duration-300 ${
+                selectedCountry === 'france' ? 'text-blue-800' : 'text-gray-500'
               }`}
             >
               France

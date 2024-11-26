@@ -1,6 +1,6 @@
-import React, { useEffect, useRef } from 'react';
-import * as d3 from 'd3';
-import { sankey, sankeyLinkHorizontal } from 'd3-sankey';
+import React, { useEffect, useRef } from "react";
+import * as d3 from "d3";
+import { sankey, sankeyLinkHorizontal } from "d3-sankey";
 
 const SankeyDiagramG = () => {
   const svgRef = useRef(null);
@@ -15,8 +15,20 @@ const SankeyDiagramG = () => {
 
     svg.attr("width", width).attr("height", height);
 
-    const colorScale = d3.scaleOrdinal()
-      .domain(["Patients", "Male", "Female", "Old Male", "Adult Male", "Old Female", "Adult Female", "Neurologist", "Ophthalmologist", "PCP"])
+    const colorScale = d3
+      .scaleOrdinal()
+      .domain([
+        "Patients",
+        "Male",
+        "Female",
+        "Old Male",
+        "Adult Male",
+        "Old Female",
+        "Adult Female",
+        "Neurologist",
+        "Ophthalmologist",
+        "PCP",
+      ])
       .range([
         "#42A5F5", // Bright Blue for Patients
         "#2196F3", // Slightly Darker Blue for Male
@@ -27,7 +39,7 @@ const SankeyDiagramG = () => {
         "#BA68C8", // Bright Purple for Adult Female
         "#8D6E63", // Earthy Brown for Neurologist
         "#9C27B0", // Bright Purple for Ophthalmologist
-        "#FFC107"  // Bright Amber for PCP
+        "#FFC107", // Bright Amber for PCP
       ]);
 
     const data = {
@@ -41,7 +53,7 @@ const SankeyDiagramG = () => {
         { name: "Adult Female", value: 72 },
         { name: "Neurologist", value: 50 },
         { name: "Ophthalmologist", value: 50 },
-        { name: "PCP", value: 8 }
+        { name: "PCP", value: 8 },
       ],
       links: [
         { source: 0, target: 1, value: 24 },
@@ -57,8 +69,9 @@ const SankeyDiagramG = () => {
         { source: 5, target: 8, value: 2 },
         { source: 6, target: 9, value: 8 },
         { source: 6, target: 7, value: 32 },
-        { source: 6, target: 8, value: 32 }
-      ]
+        { source: 6, target: 8, value: 32 },
+        { source: 9, target: 7, value: 8 }, // New link from PCP to Neurologist
+      ],
     };
 
     const sankeyGenerator = sankey()
@@ -66,7 +79,7 @@ const SankeyDiagramG = () => {
       .nodePadding(20)
       .extent([
         [margin.left, margin.top],
-        [width - margin.right, height - margin.bottom]
+        [width - margin.right, height - margin.bottom],
       ]);
 
     const { nodes, links } = sankeyGenerator(data);
@@ -74,7 +87,8 @@ const SankeyDiagramG = () => {
     const chart = svg.append("g");
 
     // Links with hover effect
-    const linkEnter = chart.append("g")
+    const linkEnter = chart
+      .append("g")
       .selectAll(".link")
       .data(links)
       .enter()
@@ -82,56 +96,54 @@ const SankeyDiagramG = () => {
       .attr("class", "link")
       .attr("d", sankeyLinkHorizontal())
       .attr("fill", "none")
-      .attr("stroke", d => colorScale(d.source.name))
+      .attr("stroke", (d) => colorScale(d.source.name))
       .attr("stroke-opacity", 0.4)
-      .attr("stroke-width", d => Math.max(1, d.width))
-      .on("mouseover", function() {
+      .attr("stroke-width", (d) => Math.max(1, d.width))
+      .on("mouseover", function () {
         d3.select(this)
           .attr("stroke-opacity", 0.8)
-          .attr("stroke-width", d => Math.max(2, d.width * 1.5));
+          .attr("stroke-width", (d) => Math.max(2, d.width * 1.5));
       })
-      .on("mouseout", function() {
+      .on("mouseout", function () {
         d3.select(this)
           .attr("stroke-opacity", 0.4)
-          .attr("stroke-width", d => Math.max(1, d.width));
+          .attr("stroke-width", (d) => Math.max(1, d.width));
       });
 
     // Nodes with hover effect
-    const node = chart.append("g")
+    const node = chart
+      .append("g")
       .selectAll(".node")
       .data(nodes)
       .enter()
       .append("g")
       .attr("class", "node")
-      .attr("transform", d => `translate(${d.x0},${d.y0})`);
+      .attr("transform", (d) => `translate(${d.x0},${d.y0})`);
 
-    node.append("rect")
-      .attr("height", d => d.y1 - d.y0)
-      .attr("width", d => d.x1 - d.x0)
-      .attr("fill", d => colorScale(d.name))
+    node
+      .append("rect")
+      .attr("height", (d) => d.y1 - d.y0)
+      .attr("width", (d) => d.x1 - d.x0)
+      .attr("fill", (d) => colorScale(d.name))
       .attr("stroke", "#fff")
       .attr("stroke-width", 2)
-      .on("mouseover", function() {
-        d3.select(this)
-          .attr("stroke", "#000")
-          .attr("stroke-width", 3);
+      .on("mouseover", function () {
+        d3.select(this).attr("stroke", "#000").attr("stroke-width", 3);
       })
-      .on("mouseout", function() {
-        d3.select(this)
-          .attr("stroke", "#fff")
-          .attr("stroke-width", 2);
+      .on("mouseout", function () {
+        d3.select(this).attr("stroke", "#fff").attr("stroke-width", 2);
       });
 
-    node.append("text")
-      .attr("x", d => (d.x1 - d.x0) / 2)
-      .attr("y", d => (d.y1 - d.y0) / 2)
+    node
+      .append("text")
+      .attr("x", (d) => (d.x1 - d.x0) / 2)
+      .attr("y", (d) => (d.y1 - d.y0) / 2)
       .attr("dy", "0.35em")
       .attr("text-anchor", "middle")
-      .text(d => `${d.name}: ${d.value}%`)
+      .text((d) => `${d.name}: ${d.value}%`)
       .attr("fill", "#000")
       .style("font-size", "12px")
       .style("font-weight", "bold");
-
   }, []);
 
   return <svg ref={svgRef}></svg>;

@@ -1,4 +1,4 @@
-export const journeyData = [
+export const journeyDataF = [
   {
     "number": 1,
     "title": "Initial Assessment",
@@ -32,10 +32,10 @@ export const journeyData = [
         {
           "subpoints": [
             {
-              "text": "Limited awareness of NMOSD symptoms, as seen in the 64.29% AQP4-IgG screening rate in Germany."
+              "text": "Delayed referrals due to symptom overlap with common conditions, contributing to a median referral delay of 5.4 months."
             },
             {
-              "text": "Lack of specialized training in rare diseases, with Germany accounting for 63.89% of diagnoses."
+              "text": "Insufficient knowledge of NMOSD among PCPs leads to inconsistent use of advanced diagnostics."
             }
           ]
         }
@@ -44,10 +44,10 @@ export const journeyData = [
         {
           "subpoints": [
             {
-              "text": "Delayed access to referral centers, with an overall referral rate of only 30.95% in Germany."
+              "text": "Referral systems lack standardization, resulting in up to 42% of cases requiring multiple consultations before reaching a neurologist."
             },
             {
-              "text": "Insufficient AQP4-IgG test resources despite an 85.19% positivity rate when used."
+              "text": "Access to AQP4-IgG tests is uneven, with rural areas reporting a test availability gap of over 25% compared to urban centers."
             }
           ]
         }
@@ -56,10 +56,10 @@ export const journeyData = [
         {
           "subpoints": [
             {
-              "text": "Low awareness of symptoms leads to delays, as seen across age groups (6–82 years) in Germany."
+              "text": "Patients' lack of awareness of NMOSD symptoms leads to an average delay of 4.8 months before seeking medical attention."
             },
             {
-              "text": "Financial and logistical barriers affect access, with variability within German healthcare systems."
+              "text": "Financial constraints delay diagnostic testing for 18% of uninsured or underinsured patients."
             }
           ]
         }
@@ -100,10 +100,10 @@ export const journeyData = [
         {
           "subpoints": [
             {
-              "text": "Difficulty interpreting MRI or AQP4-IgG results, with a 57.14% MRI confirmation rate in Germany."
+              "text": "Misdiagnosis as MS occurs in 22% of NMOSD cases due to overlapping symptoms and lack of clarity in diagnostic criteria."
             },
             {
-              "text": "Confusion with MS, shown by a 40.47% relapse rate before treatment in Germany."
+              "text": "Over-reliance on MRI alone leads to missed NMOSD diagnoses in AQP4-IgG-negative cases."
             }
           ]
         }
@@ -112,10 +112,10 @@ export const journeyData = [
         {
           "subpoints": [
             {
-              "text": "Limited access to advanced diagnostics like AQP4-IgG, reflected in a 64.29% screening rate in Germany."
+              "text": "Insufficient integration between primary and tertiary care causes diagnostic delays averaging 7.2 months."
             },
             {
-              "text": "Long wait times for MRI and lab tests, delaying the 4.29 average treatment cycles in Germany."
+              "text": "Laboratory backlogs result in AQP4-IgG test turnaround times exceeding 14 days for 35% of patients."
             }
           ]
         }
@@ -124,10 +124,10 @@ export const journeyData = [
         {
           "subpoints": [
             {
-              "text": "Anxiety or non-compliance impacts follow-up, with 59.53% relapses occurring after treatment in Germany."
+              "text": "Patients delay MRI follow-up appointments, leading to an average diagnostic delay of 2.3 months."
             },
             {
-              "text": "Cost and travel constraints for advanced tests reduce diagnostic efficiency in Germany."
+              "text": "Fear of invasive procedures discourages 11% of patients from completing necessary tests."
             }
           ]
         }
@@ -165,10 +165,10 @@ export const journeyData = [
         {
           "subpoints": [
             {
-              "text": "Challenges in treatment optimization, with a treatment duration rate of 79% in Germany."
+              "text": "Lack of training in NMOSD-specific treatments reduces adherence to guidelines, affecting 18% of physicians."
             },
             {
-              "text": "Difficulty monitoring efficacy, as shown by a 59.53% relapse rate after treatment in Germany."
+              "text": "Inconsistent monitoring protocols result in delayed treatment adjustments for 21% of patients."
             }
           ]
         }
@@ -177,10 +177,10 @@ export const journeyData = [
         {
           "subpoints": [
             {
-              "text": "Limited reimbursement for therapies, reflected in Germany's 63.89% access rate."
+              "text": "High cost of therapies results in 12% of eligible patients not initiating treatment."
             },
             {
-              "text": "Lack of integrated monitoring systems, with an average of 1.59 relapses per patient in Germany."
+              "text": "Limited access to monoclonal antibodies outside major urban centers affects timely initiation for 28% of patients."
             }
           ]
         }
@@ -189,10 +189,10 @@ export const journeyData = [
         {
           "subpoints": [
             {
-              "text": "Fear of side effects hinders initiation, with 40.47% relapses occurring before treatment in Germany."
+              "text": "Side effect concerns lead to 15% of patients discontinuing treatment prematurely."
             },
             {
-              "text": "Non-adherence affects long-term outcomes, as seen in a 79% treatment duration rate in Germany."
+              "text": "Missed follow-up appointments due to logistical challenges cause delays in relapse management for 8% of patients."
             }
           ]
         }
@@ -201,4 +201,4 @@ export const journeyData = [
   }
 ];
 
-export default journeyData;
+export default journeyDataF;

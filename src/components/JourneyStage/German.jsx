@@ -1,12 +1,18 @@
 import React, { useState } from 'react';
 import { Card } from '../ui/card';
-
+import {
+  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
+  LineChart, Line, PieChart, Pie, Cell, ResponsiveContainer, RadialBar,Text,RadialBarChart
+} from 'recharts';
 import {
   ArrowRight, Stethoscope, Building2, User, LineChart as LineChartIcon,
   ClipboardCheck, AlertTriangle, ChevronDown, ChevronUp,
-  Bold
+  Bold,
+  ImageOff
 } from 'lucide-react';
 import SankeyDiagramG from '../sankey/sankeyDiagG';
+import TreatmentFlow from '../TreatmentFlow/Femaleflow.jsx'
+import HorizontalTreeChartMale from '../TreatmentFlow/Maleflow.jsx'
 
 
 const German = ({ stage, metrics, barriers, findings }) => {
@@ -40,14 +46,117 @@ const German = ({ stage, metrics, barriers, findings }) => {
               motorFunctionData:motorFunctionData
             };
           }
+        case 2: {
+
+          const mriConfirmationData = [
+            { category: "No", Percentage: 34.78 },
+            { category: "Yes", Percentage: 65.22 },
+          ];
+         
+          const aqp4PositivityData = [
+            { AQP4_IgG_POSITIVE: "No", Female: 100.0, Male: 0.0 },
+            { AQP4_IgG_POSITIVE: "Yes", Female: 65.625, Male: 34.375 },
+          ];
+
+          const Diagnosisdata =[
+            { Diagnosis: 'Optic neuritis', Percentage: 37.10 },
+            { Diagnosis: 'Lumber puncture', Percentage: 29.03 },
+            { Diagnosis: 'Acute Myelitis', Percentage: 16.13 },
+            { Diagnosis: 'Symptomatic cerebral syndrome', Percentage: 8.06 },
+            { Diagnosis: 'Acute brainstem syndrome', Percentage: 4.84 },
+            { Diagnosis: 'Area postrema syndrome', Percentage: 3.23 },
+            { Diagnosis: 'Acute diencephalic clinical syndrome', Percentage: 1.61 },
+          ];
+          const complianceData = [
+            { name: '2020', Compliant: 29.17, NonCompliant: 70.83 },
+            { name: '2021', Compliant: 14.81, NonCompliant: 85.19 },
+            { name: '2022', Compliant: 1.69, NonCompliant: 98.31 },
+          ];          
+          
+          
+          
+
+          return{
+            type:'bar',
+            mriConfirmationData:mriConfirmationData,
+            aqp4PositivityData:aqp4PositivityData,
+            Diagnosisdata:Diagnosisdata,
+            complianceData:complianceData
+            
+          }
+        }
+        case 3:{
+          const treatmentNonoral =[
+            { name: "Rituximab", percentage: 40.74 },
+            { name: "Prednisolone", percentage: 14.91 },
+            { name: "Methylprednisolon", percentage: 11.11 },
+            { name: "Kortison", percentage: 11.11 },
+            { name: "Cyclophosphamide", percentage: 7.39 },
+            { name: "Soliris / eculizumab", percentage: 7.39 },
+            { name: "Crystalloid", percentage: 7.39 }
+          ];
+          const oralTreatment = [
+            { name: "Prednisolone", percentage: 38.56 },
+            { name: "Kortison", percentage: 20.88 },
+            { name: "Decortin", percentage: 12.57 },
+            { name: "Steroide", percentage: 12.57 },
+            { name: "Methylprednisolon", percentage: 8.3 },
+            { name: "Azathioprine", percentage: 8.3 }
+          ];
+          
+          // const relapse_rate = [
+          //   { TreatmentName: 'Azathioprine', 'After treatment (%)': 100, 'Before treatment (%)': 0 },
+          //   { TreatmentName: 'Crystalloid', 'After treatment (%)': 100, 'Before treatment (%)': 0 },
+          //   { TreatmentName: 'Cyclophosphamide', 'After treatment (%)': 66.7, 'Before treatment (%)': 33.3 },
+          //   { TreatmentName: 'Injektion', 'After treatment (%)': 100, 'Before treatment (%)': 0 },
+          //   { TreatmentName: 'Kortison', 'After treatment (%)': 100, 'Before treatment (%)': 0 },
+          //   { TreatmentName: 'Methylprednisolon', 'After treatment (%)': 40, 'Before treatment (%)': 60 },
+          //   { TreatmentName: 'Prednisolone', 'After treatment (%)': 33.3, 'Before treatment (%)': 66.7 },
+          //   { TreatmentName: 'Rituximab', 'After treatment (%)': 50, 'Before treatment (%)': 50 },
+          //   { TreatmentName: 'Soliris / eculizumab', 'After treatment (%)': 0, 'Before treatment (%)': 100 },
+          //   { TreatmentName: 'Tocilizumab', 'After treatment (%)': 0, 'Before treatment (%)': 100 },
+          // ];
+          const symptomSeverityGroupedData = [
+            { AgeGroup: "Age[20-40]", Wheelchair: 0.0625, Sightloss: 0.25 },
+            { AgeGroup: "Age[40-60]", Wheelchair: 0.2222, Sightloss: 0.5556 },
+            { AgeGroup: "Age[60-80]", Wheelchair: 1.0, Sightloss: 1.0 },
+          ];
+
+          const Adherence = [
+          
+            { Adherence: 'Adherent Patient', Percentage: 88.10, fill: '#ffc658' },
+            { Adherence: 'Non Adherent Patient', Percentage: 11.90, fill: '#a4de6c' }
+          ];
+          const relapseTimingData = [
+            { category: "After treatment", Percentage: 57.45 },
+            { category: "Before treatment", Percentage: 42.55 },
+          ];
+
+          const relapserate = [
+            { year: 2019, rate: 0.3 },
+            { year: 2020, rate: 0.375 },
+            { year: 2021, rate: 0.49019607843137253 },
+            { year: 2022, rate: 0.352112676056338 }
+          ];
+          return{
+            type:'pie',
+            treatmentNonoral:treatmentNonoral,
+            oralTreatment:oralTreatment,
+            Adherence:Adherence,
+            symptomSeverityGroupedData:symptomSeverityGroupedData,
+            relapseTimingData:relapseTimingData,
+            relapserate:relapserate
+          }
+        }
     }
   };
+
 
   const renderChartInsights = () => {
     const chartConfig = getChartData();
     if (!chartConfig) return null;
 
-    const { type, title,} = chartConfig;
+    const { type, title,mriConfirmationData,relapseTimingData,aqp4PositivityData,symptomSeverityGroupedData,treatmentNonoral,relapserate,oralTreatment,Adherence,Diagnosisdata,complianceData} = chartConfig;
 
     switch (type) {
       case 'line':
@@ -57,6 +166,408 @@ const German = ({ stage, metrics, barriers, findings }) => {
           <SankeyDiagramG />
         </div>
       )
+      case 'bar':
+        return(
+          <div className="w-full space-y-6">
+
+            <div className="grid grid-cols-2 gap-8">
+              <Card className="p-6">
+              <h4 className="text-sm font-medium text-gray-900">Male Treatment Flow</h4>
+              < TreatmentFlow />
+              </Card>
+              <Card className="p-6">
+              <h4 className="text-sm font-medium text-gray-900">Female Treatment Flow</h4>
+              < HorizontalTreeChartMale />
+              </Card>
+            </div>
+           
+            <div className="grid grid-cols-2 gap-8">
+              <Card className="p-6">
+              <h4 className="text-sm font-medium text-gray-700">MRI Confirmation Rates</h4>
+                <div className="aspect-[4/3] w-full">
+                <ResponsiveContainer width="100%" height={400}>
+                  <BarChart
+                    data={mriConfirmationData}
+                    margin={{ top: 20, right: 30, left: 20, bottom: 20 }}
+                  >
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="category" label={{ value: "MRI Confirmed", position: "insideBottom", offset: -5 }} />
+                    <YAxis
+                      label={{
+                        value: "Percentage",
+                        angle: -90,
+                        position: "insideLeft",
+                      }}
+                      tickFormatter={(value) => `${value}%`}
+                    />
+                    <Tooltip formatter={(value) => `${value}%`} />
+                    <Legend />
+                    <Bar dataKey="Percentage" fill="#82ca9d" name="Percentage" />
+                  </BarChart>
+                </ResponsiveContainer>
+                </div>
+              </Card>
+
+              <Card className="p-6">
+              <h4 className="text-sm font-medium text-gray-700">AQP4-IgG Positivity Rates by Gender</h4>
+                <div className="aspect-[4/3] w-full">
+                <ResponsiveContainer width="100%" height={400}>
+                  <BarChart
+                    data={aqp4PositivityData}
+                    margin={{ top: 20, right: 30, left: 20, bottom: 20 }}
+                  >
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="AQP4_IgG_POSITIVE" />
+                    <YAxis />
+                    <Tooltip formatter={(value) => `${value}%`} />
+                    <Legend />
+
+                    {/* Bar for Female */}
+                    <Bar
+                      dataKey="Female"
+                      fill="#ff9999" // Color for Female
+                      name="Female"
+                    />
+                    
+                    {/* Bar for Male */}
+                    <Bar
+                      dataKey="Male"
+                      fill="#66b3ff" // Color for Male
+                      name="Male"
+                    />
+                  </BarChart>
+                </ResponsiveContainer>
+                </div>
+              </Card>
+
+            </div>
+
+
+
+            
+            <div className="grid grid-cols-2 gap-8">
+              <Card className="p-6">
+              <h4 className="text-sm font-medium text-gray-700">Diagnosis Distribution</h4>
+                <div className="aspect-[4/3] w-full">
+
+                <ResponsiveContainer width="100%" height={400}>
+                  <BarChart
+                    data={Diagnosisdata}
+                    layout="vertical"
+                    margin={{ top: 20, right: 30, left: 1, bottom: 20 }}
+                  >
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis type="number" domain={[0, 100]} label={{ value: 'Percentage (%)', position: 'insideBottom', offset: -5 }} />
+                    <YAxis type="category" dataKey="Diagnosis" width={200} />
+                    <Tooltip />
+                    <Bar dataKey="Percentage" fill="#8884d8" barSize={20} />
+                  </BarChart>
+                </ResponsiveContainer>
+                </div>
+              </Card>
+              
+
+
+              <Card className="p-6">
+              <h4 className="text-sm font-medium text-gray-700">Complaince rate</h4>
+              <div className="aspect-[4/3] w-full" style={{ width: '100%', height: '400px', backgroundColor: 'white', padding: '20px', boxSizing: 'border-box' }}>
+              <ResponsiveContainer width="100%" height="100%">
+        <RadialBarChart
+          cx="50%"
+          cy="50%"
+          innerRadius="30%"
+          outerRadius="100%"
+          barSize={20}
+          data={complianceData}
+          startAngle={180}
+          endAngle={0}
+        >
+          {/* Non-Compliant segment */}
+          <RadialBar
+            dataKey="NonCompliant"
+            stackId="stack"
+            fill="#f44336"
+            minAngle={15}
+            max={100}
+            label={({ value, index }) => {
+              const angle = (360 * value) / 100;
+              return (
+                <text
+                  x="50%"
+                  y="50%"
+                  fill="white"
+                  textAnchor="middle"
+                  dominantBaseline="middle"
+                  style={{ transform: `rotate(${angle - 90}deg)` }}
+                >
+                  {`${value.toFixed(2)}%`}
+                </text>
+              );
+            }}
+          />
+          {/* Compliant segment */}
+          <RadialBar
+            dataKey="Compliant"
+            stackId="stack"
+            fill="#28a745"
+            minAngle={15}
+            max={100}
+            label={({ value, index }) => {
+              const angle = (360 * value) / 100;
+              return (
+                <text
+                  x="50%"
+                  y="50%"
+                  fill="white"
+                  textAnchor="middle"
+                  dominantBaseline="middle"
+                  style={{ transform: `rotate(${angle - 90}deg)` }}
+                >
+                  {`${value.toFixed(2)}%`}
+                </text>
+              );
+            }}
+          />
+          <Tooltip
+            formatter={(value, name, props) => {
+              const yearName = props?.payload?.payload?.name || '';
+              return [`${value}%`, `${yearName} ${name}`];
+            }}
+            contentStyle={{
+              backgroundColor: 'white',
+              border: '1px solid #555',
+              borderRadius: '8px',
+              padding: '5px',
+            }}
+          />
+          <Legend
+            payload={[
+              { value: 'Non-Compliant', type: 'square', color: '#f44336' },
+              { value: 'Compliant', type: 'square', color: '#28a745' },
+            ]}
+            iconSize={10}
+            layout="horizontal"
+            verticalAlign="bottom"
+            align="center"
+            wrapperStyle={{
+              paddingTop: '10px',
+              fontSize: '12px',
+              color: '#333',
+            }}
+          />
+
+          {/* Year Labels - Adjust the vertical position to avoid overlap */}
+          {complianceData.map((entry, index) => (
+            <text
+              key={entry.name}
+              x="50%" // Center horizontally
+              y={index * 35 + 50} // Adjusting the vertical position to prevent overlap
+              fill="#333"
+              fontSize="16px"
+              textAnchor="middle"
+              fontWeight="bold"
+            >
+              {entry.name}
+            </text>
+          ))}
+        </RadialBarChart>
+      </ResponsiveContainer>
+
+              </div>
+              </Card>
+              
+            </div>
+
+
+          </div>
+        )
+        case 'pie':
+        return(
+          <div className="w-full space-y-6">
+           
+            <div className="grid grid-cols-2 gap-8">
+              <Card className="p-6">
+              <h4 className="text-sm font-medium text-gray-700">Treatment Distribution (Non-Oral)</h4>
+                <div className="aspect-[4/3] w-full">
+                <ResponsiveContainer width="100%" height={400}>
+                  <PieChart>
+                    <Pie
+                      data={treatmentNonoral}
+                      dataKey="percentage"
+                      nameKey="name"
+                      cx="50%"
+                      cy="50%"
+                      outerRadius={150}
+                      label
+                    >
+                      {treatmentNonoral.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={['#82ca9d', '#8884d8', '#dce3f1', '#f8d7e3', '#f1c7b7','#ffc658','#a4de6c',
+                          '#d0ed57',
+                          '#ff8042',
+                          '#8dd1e1', 
+                          '#ffc0cb', 
+                          '#adff2f', 
+                          '#ffbb28', ][index]} />
+                      ))}
+                    </Pie>
+                    <Tooltip formatter={(value) => `${value}%`} />
+                    <Legend />
+                  </PieChart>
+                </ResponsiveContainer>
+                </div>
+              </Card>
+
+
+              
+              <Card className="p-6">
+              <h4 className="text-sm font-medium text-gray-700">Treatment Distribution (Oral)</h4>
+                <div className="aspect-[4/3] w-full">
+                <ResponsiveContainer width="100%" height={400}>
+                  <PieChart>
+                    <Pie
+                      data={oralTreatment}
+                      dataKey="percentage"
+                      nameKey="name"
+                      cx="50%"
+                      cy="50%"
+                      outerRadius={150}
+                      label
+                    >
+                      {oralTreatment.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={['#82ca9d', '#8884d8', '#dce3f1', '#f8d7e3', '#f1c7b7','#ffc658','#a4de6c',
+                          '#d0ed57',
+                          '#ff8042',
+                          '#8dd1e1', 
+                          '#ffc0cb', 
+                          '#adff2f', 
+                          '#ffbb28', ][index]} />
+                      ))}
+                    </Pie>
+                    <Tooltip formatter={(value) => `${value}%`} />
+                    <Legend />
+                  </PieChart>
+                </ResponsiveContainer>
+                </div>
+              </Card>
+
+            </div>
+
+
+            <div className="grid grid-cols-3 gap-8">
+              <Card className="p-6">
+              <h4 className="text-sm font-medium text-gray-700">Adherence Rate</h4>
+                <div className="aspect-[4/3] w-full">
+                <ResponsiveContainer width="100%" height="100%">
+                      <PieChart>
+                        <Pie
+                          data={Adherence}
+                          cx="50%"
+                          cy="50%"
+                          innerRadius="60%"
+                          outerRadius="80%"
+                          paddingAngle={5}
+                          dataKey="Percentage" // Correct data key for percentages
+                          nameKey="Adherence" // Add the name key for tooltips and legends
+                        >
+                          {Adherence.map((entry, index) => (
+                            <Cell key={`cell-${index}`} fill={entry.fill} />
+                          ))}
+                        </Pie>
+
+                        {/* Tooltip to display the correct percentage and treatment */}
+                        <Tooltip
+                          formatter={(value, _, props) => `${value}%`}
+                          contentStyle={{ backgroundColor: '#fff', borderRadius: '8px' }}
+                        />
+
+                        {/* Adjusted Legend */}
+                        <Legend
+                          layout="horizontal"
+                          align="center"
+                          verticalAlign="bottom"
+                          formatter={(value, entry) => entry.payload.Adherence}
+                        />
+                      </PieChart>
+                    </ResponsiveContainer>
+                </div>
+              </Card>
+
+
+              <Card className="p-6">
+              <h4 className="text-sm font-medium text-gray-700">Wheelchair and Sightloss severity</h4>
+              <div className="aspect-[4/3] w-full">
+              <ResponsiveContainer width="100%" height={300}>
+                <BarChart
+                  data={symptomSeverityGroupedData}
+                  margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+                >
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="AgeGroup" />
+                  <YAxis label={{ value: 'Prevalence', angle: -90, position: 'insideLeft' }} /> {/* Added Y-axis label */}
+                  <Tooltip />
+                  <Legend />
+                  <Bar dataKey="Wheelchair" name="Wheelchair" stackId="a" fill="#8884d8" />
+                  <Bar dataKey="Sightloss" name="Sightloss" stackId="a" fill="#82ca9d" />
+                </BarChart>
+              </ResponsiveContainer>
+              </div>
+              </Card>
+
+              <Card className="p-6">
+              <h4 className="text-sm font-medium text-gray-700">Relapse Timing Distribution</h4>
+                <div className="aspect-[4/3] w-full">
+                <ResponsiveContainer width="100%" height={300}>
+                  <BarChart
+                    data={relapseTimingData}
+                    layout="vertical"
+                    margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+                  >
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis type="number" domain={[0, 100]} />
+                    <YAxis type="category" dataKey="category" />
+                    <Tooltip formatter={(value) => `${value}%`} />
+                    <Legend />
+                    {/* Using a static color for testing */}
+                    <Bar
+                      dataKey="Percentage"
+                      fill="#ff8042"  // Static color for testing
+                      name="Relapse Timing"
+                    />
+                  </BarChart>
+                </ResponsiveContainer>
+
+
+                </div>
+              </Card>
+
+
+              </div>
+              <div className="grid grid-cols-3 gap-8">
+                <Card className="p-6">
+                <h4 className="text-sm font-medium text-gray-700">Relapse Rate</h4>
+                  <div className="aspect-[4/3] w-full">
+                  <ResponsiveContainer width="95%" height={400}>
+                    <LineChart data={relapserate}>
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="year" />
+                      <YAxis />
+                      <Tooltip  />
+                      <Legend />
+                      <Line
+                        type="monotone"
+                        dataKey="rate"
+                        stroke="#8884d8"
+                        strokeWidth={2}
+                        dot={{ r: 5 }}
+                      />
+                    </LineChart>
+                  </ResponsiveContainer>
+                  </div>
+                </Card>
+              </div>
+
+          </div>
+        )
     }
     }
 
