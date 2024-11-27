@@ -172,11 +172,11 @@ const German = ({ stage, metrics, barriers, findings }) => {
 
             <div className="grid grid-cols-2 gap-8">
               <Card className="p-6">
-              <h4 className="text-sm font-medium text-gray-900">Male Treatment Flow</h4>
+              <h4 className="text-sm font-medium text-gray-900">Female Treatment Flow</h4>
               < TreatmentFlow />
               </Card>
               <Card className="p-6">
-              <h4 className="text-sm font-medium text-gray-900">Female Treatment Flow</h4>
+              <h4 className="text-sm font-medium text-gray-900">Male Treatment Flow</h4>
               < HorizontalTreeChartMale />
               </Card>
             </div>
@@ -269,7 +269,7 @@ const German = ({ stage, metrics, barriers, findings }) => {
 
 
               <Card className="p-6">
-              <h4 className="text-sm font-medium text-gray-700">Complaince rate</h4>
+              <h4 className="text-sm font-medium text-gray-700">Compliance rate</h4>
               <div className="aspect-[4/3] w-full" style={{ width: '100%', height: '400px', backgroundColor: 'white', padding: '20px', boxSizing: 'border-box' }}>
               <ResponsiveContainer width="100%" height="100%">
         <RadialBarChart
