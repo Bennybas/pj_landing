@@ -2,7 +2,7 @@ import React from 'react';
 import German from './German';
 import France from './France';
 
-const JourneyStage = ({ stage, metrics, barriers, findings, selectedCountry }) => {
+const JourneyStage = ({ stage, metrics, barriers, findings, selectedCountry,fstage,fmetrics, fbarriers, ffindings, }) => {
   return (
     <div>
       {selectedCountry === 'germany' ? (
@@ -14,10 +14,10 @@ const JourneyStage = ({ stage, metrics, barriers, findings, selectedCountry }) =
         />
       ) : (
         <France 
-          stage={stage} 
-          metrics={metrics} 
-          barriers={barriers} 
-          findings={findings} 
+          stage={fstage} 
+          metrics={fmetrics} 
+          barriers={fbarriers} 
+          findings={ffindings} 
         />
       )}
     </div>

@@ -25,7 +25,6 @@ export const journeyDataF = [
       { "value": "30.95%", "label": "Overall Referral Rate in Germany" },
       { "value": "64.29%", "label": "AQP4-IgG Screening Rate in Germany" },
       { "value": "6 to 82 years", "label": "Age Statistics: Range in Germany" },
-      { "value": "Germany: 63.89%", "label": "Country Distribution for Germany" }
     ],
     "barriers": {
       "physician": [

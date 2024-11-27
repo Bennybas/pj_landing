@@ -133,10 +133,10 @@ const German = ({ stage, metrics, barriers, findings }) => {
           ];
 
           const relapserate = [
-            { year: 2019, rate: 0.3 },
-            { year: 2020, rate: 0.375 },
-            { year: 2021, rate: 0.49019607843137253 },
-            { year: 2022, rate: 0.352112676056338 }
+            { year: 2019, rate: 40.5 },
+            { year: 2020, rate: 50.8 },
+            { year: 2021, rate: 77.4 },
+            { year: 2022, rate: 52.7 }
           ];
           return{
             type:'pie',
@@ -169,7 +169,7 @@ const German = ({ stage, metrics, barriers, findings }) => {
       case 'bar':
         return(
           <div className="w-full space-y-6">
-
+            
             <div className="grid grid-cols-2 gap-8">
               <Card className="p-6">
               <h4 className="text-sm font-medium text-gray-900">Female Treatment Flow</h4>
@@ -181,6 +181,7 @@ const German = ({ stage, metrics, barriers, findings }) => {
               </Card>
             </div>
            
+
             <div className="grid grid-cols-2 gap-8">
               <Card className="p-6">
               <h4 className="text-sm font-medium text-gray-700">MRI Confirmation Rates</h4>
