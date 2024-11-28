@@ -2,7 +2,7 @@ export const journeyData = [
   {
     "number": 1,
     "title": "Initial Assessment",
-    "description": "Critical period where primary care physicians in Germany play a key role in the initial detection and assessment of neurological symptoms.",
+    "description": "Critical period where primary care physicians  play a key role in the initial detection and assessment of neurological symptoms.",
     "actions": [
       {
         "name": "Early Signs of Neurological Symptoms",
@@ -22,10 +22,9 @@ export const journeyData = [
       }
     ],
     "metrics": [
-      { "value": "30.95%", "label": "Overall Referral Rate in Germany" },
-      { "value": "64.29%", "label": "AQP4-IgG Screening Rate in Germany" },
-      { "value": "6 to 82 years", "label": "Age Statistics: Range in Germany" },
-      { "value": "Germany: 63.89%", "label": "Country Distribution for Germany" }
+      { "value": "30.95%", "label": "Overall Referral Rate" },
+      { "value": "64.29%", "label": "AQP4-IgG Screening Rate" },
+      { "value": "6 to 82 years", "label": "Age Statistics: Range " },
     ],
     "barriers": {
       "physician": [
@@ -69,19 +68,19 @@ export const journeyData = [
   {
     "number": 2,
     "title": "Diagnosis Confirmation",
-    "description": "Detailed diagnostic process in Germany including the use of biomarkers and differential diagnosis methods for NMOSD.",
+    "description": "Detailed diagnostic process  including the use of biomarkers and differential diagnosis methods for NMOSD.",
     "actions": [
       {
-        "name": "Consultation with a Neurologist or Neuromuscular Specialist",
+        "name": "Consultation with a Neurologist",
         "content": "Detailed evaluation of neurological symptoms, clinical history, and ruling out other possible diagnoses such as MS."
-      },
-      {
-        "name": "AQP4-IgG Antibody Testing",
-        "content": "Blood test to check for the presence of AQP4-IgG antibodies, a key biomarker for NMOSD diagnosis."
       },
       {
         "name": "MRI for Neurological Involvement",
         "content": "MRI scans of the brain and spinal cord to detect lesions, transverse myelitis, or optic neuritis typically seen in NMOSD."
+      },
+      {
+        "name": "AQP4-IgG Antibody Testing",
+        "content": "Blood test to check for the presence of AQP4-IgG antibodies, a key biomarker for NMOSD diagnosis."
       },
       {
         "name": "Diagnosis Confirmation and Staging",
@@ -89,11 +88,11 @@ export const journeyData = [
       }
     ],
     "metrics": [
-      { "value": "85.19%", "label": "AQP4-IgG Positivity Rate in Germany" },
-      { "value": "57.14%", "label": "MRI Confirmation Rate in Germany" },
-      { "value": "1.59", "label": "Average Relapse in Germany" },
-      { "value": "59.53%", "label": "Average Relapse After Treatment in Germany" },
-      { "value": "40.47%", "label": "Average Relapse Before Treatment in Germany" }
+      { "value": "85.19%", "label": "AQP4-IgG Positivity Rate " },
+      { "value": "57.14%", "label": "MRI Confirmation Rate " },
+      { "value": "1.59", "label": "Average Relapse " },
+      { "value": "59.53%", "label": "Average Relapse After Treatment " },
+      { "value": "40.47%", "label": "Average Relapse Before Treatment " }
     ],
     "barriers": {
       "physician": [
@@ -137,7 +136,7 @@ export const journeyData = [
   {
     "number": 3,
     "title": "Treatment Initiation and Monitoring Outcomes",
-    "description": "Long-term treatment, monitoring, and management of NMOSD disease in Germany.",
+    "description": "Long-term treatment, monitoring, and management of NMOSD disease .",
     "actions": [
       {
         "name": "Treatment Initiation",
@@ -157,8 +156,8 @@ export const journeyData = [
       }
     ],
     "metrics": [
-      { "value": "79%", "label": "Treatment Duration Rate in Germany" },
-      { "value": "4.29", "label": "Average Treatment Cycles in Germany" }
+      { "value": "79%", "label": "Treatment Duration Rate " },
+      { "value": "4.29", "label": "Average Treatment Cycles " }
     ],
     "barriers": {
       "physician": [

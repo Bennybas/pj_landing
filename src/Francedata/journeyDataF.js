@@ -2,7 +2,7 @@ export const journeyDataF = [
   {
     "number": 1,
     "title": "Initial Assessment",
-    "description": "Critical period where primary care physicians in Germany play a key role in the initial detection and assessment of neurological symptoms.",
+    "description": "Critical period where primary care physicians in France play a key role in the initial detection and assessment of neurological symptoms.",
     "actions": [
       {
         "name": "Early Signs of Neurological Symptoms",
@@ -22,9 +22,9 @@ export const journeyDataF = [
       }
     ],
     "metrics": [
-      { "value": "30.95%", "label": "Overall Referral Rate in Germany" },
-      { "value": "64.29%", "label": "AQP4-IgG Screening Rate in Germany" },
-      { "value": "6 to 82 years", "label": "Age Statistics: Range in Germany" },
+      { "value": "3.27", "label": "Overall Referral Rate in France" },
+      { "value": "99", "label": "AQP4-IgG Screening Rate in France" },
+      { "value": "1 to 3 years", "label": "Age Statistics: Range in France" }
     ],
     "barriers": {
       "physician": [
@@ -43,10 +43,10 @@ export const journeyDataF = [
         {
           "subpoints": [
             {
-              "text": "Referral systems lack standardization, resulting in up to 42% of cases requiring multiple consultations before reaching a neurologist."
+              "text": "Referral systems lack standardization, resulting in cases requiring multiple consultations before reaching a neurologist."
             },
             {
-              "text": "Access to AQP4-IgG tests is uneven, with rural areas reporting a test availability gap of over 25% compared to urban centers."
+              "text": "Access to AQP4-IgG tests is uneven, with rural areas reporting a significant test availability gap."
             }
           ]
         }
@@ -55,10 +55,10 @@ export const journeyDataF = [
         {
           "subpoints": [
             {
-              "text": "Patients' lack of awareness of NMOSD symptoms leads to an average delay of 4.8 months before seeking medical attention."
+              "text": "Patients' lack of awareness of NMOSD symptoms leads to an average delay before seeking medical attention."
             },
             {
-              "text": "Financial constraints delay diagnostic testing for 18% of uninsured or underinsured patients."
+              "text": "Financial constraints delay diagnostic testing for uninsured or underinsured patients."
             }
           ]
         }
@@ -68,7 +68,7 @@ export const journeyDataF = [
   {
     "number": 2,
     "title": "Diagnosis Confirmation",
-    "description": "Detailed diagnostic process in Germany including the use of biomarkers and differential diagnosis methods for NMOSD.",
+    "description": "Detailed diagnostic process in France including the use of biomarkers and differential diagnosis methods for NMOSD.",
     "actions": [
       {
         "name": "Consultation with a Neurologist or Neuromuscular Specialist",
@@ -88,18 +88,18 @@ export const journeyDataF = [
       }
     ],
     "metrics": [
-      { "value": "85.19%", "label": "AQP4-IgG Positivity Rate in Germany" },
-      { "value": "57.14%", "label": "MRI Confirmation Rate in Germany" },
-      { "value": "1.59", "label": "Average Relapse in Germany" },
-      { "value": "59.53%", "label": "Average Relapse After Treatment in Germany" },
-      { "value": "40.47%", "label": "Average Relapse Before Treatment in Germany" }
+      { "value": "76.04%", "label": "AQP4-IgG Positivity Rate in France" },
+      { "value": "57.14%", "label": "MRI Confirmation Rate in France" },
+      { "value": "3.0", "label": "Average Relapse in France" },
+      { "value": "59.53%", "label": "Average Relapse After Treatment in France" },
+      { "value": "40.47%", "label": "Average Relapse Before Treatment in France" }
     ],
     "barriers": {
       "physician": [
         {
           "subpoints": [
             {
-              "text": "Misdiagnosis as MS occurs in 22% of NMOSD cases due to overlapping symptoms and lack of clarity in diagnostic criteria."
+              "text": "Misdiagnosis as MS occurs in NMOSD cases due to overlapping symptoms and lack of clarity in diagnostic criteria."
             },
             {
               "text": "Over-reliance on MRI alone leads to missed NMOSD diagnoses in AQP4-IgG-negative cases."
@@ -111,10 +111,10 @@ export const journeyDataF = [
         {
           "subpoints": [
             {
-              "text": "Insufficient integration between primary and tertiary care causes diagnostic delays averaging 7.2 months."
+              "text": "Insufficient integration between primary and tertiary care causes diagnostic delays."
             },
             {
-              "text": "Laboratory backlogs result in AQP4-IgG test turnaround times exceeding 14 days for 35% of patients."
+              "text": "Laboratory backlogs result in AQP4-IgG test turnaround times exceeding 14 days for a significant percentage of patients."
             }
           ]
         }
@@ -123,10 +123,10 @@ export const journeyDataF = [
         {
           "subpoints": [
             {
-              "text": "Patients delay MRI follow-up appointments, leading to an average diagnostic delay of 2.3 months."
+              "text": "Patients delay MRI follow-up appointments, leading to diagnostic delays."
             },
             {
-              "text": "Fear of invasive procedures discourages 11% of patients from completing necessary tests."
+              "text": "Fear of invasive procedures discourages patients from completing necessary tests."
             }
           ]
         }
@@ -136,7 +136,7 @@ export const journeyDataF = [
   {
     "number": 3,
     "title": "Treatment Initiation and Monitoring Outcomes",
-    "description": "Long-term treatment, monitoring, and management of NMOSD disease in Germany.",
+    "description": "Long-term treatment, monitoring, and management of NMOSD disease in France.",
     "actions": [
       {
         "name": "Treatment Initiation",
@@ -156,18 +156,18 @@ export const journeyDataF = [
       }
     ],
     "metrics": [
-      { "value": "79%", "label": "Treatment Duration Rate in Germany" },
-      { "value": "4.29", "label": "Average Treatment Cycles in Germany" }
+      { "value": "79%", "label": "Treatment Duration Rate in France" },
+      { "value": "4.29", "label": "Average Treatment Cycles in France" }
     ],
     "barriers": {
       "physician": [
         {
           "subpoints": [
             {
-              "text": "Lack of training in NMOSD-specific treatments reduces adherence to guidelines, affecting 18% of physicians."
+              "text": "Lack of training in NMOSD-specific treatments reduces adherence to guidelines, affecting physicians."
             },
             {
-              "text": "Inconsistent monitoring protocols result in delayed treatment adjustments for 21% of patients."
+              "text": "Inconsistent monitoring protocols result in delayed treatment adjustments for patients."
             }
           ]
         }
@@ -176,10 +176,10 @@ export const journeyDataF = [
         {
           "subpoints": [
             {
-              "text": "High cost of therapies results in 12% of eligible patients not initiating treatment."
+              "text": "High cost of therapies results in eligible patients not initiating treatment."
             },
             {
-              "text": "Limited access to monoclonal antibodies outside major urban centers affects timely initiation for 28% of patients."
+              "text": "Limited access to monoclonal antibodies outside major urban centers affects timely initiation for patients."
             }
           ]
         }
@@ -188,10 +188,10 @@ export const journeyDataF = [
         {
           "subpoints": [
             {
-              "text": "Side effect concerns lead to 15% of patients discontinuing treatment prematurely."
+              "text": "Side effect concerns lead to patients discontinuing treatment prematurely."
             },
             {
-              "text": "Missed follow-up appointments due to logistical challenges cause delays in relapse management for 8% of patients."
+              "text": "Missed follow-up appointments due to logistical challenges cause delays in relapse management."
             }
           ]
         }

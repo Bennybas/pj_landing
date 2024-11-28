@@ -9,9 +9,9 @@ const SankeyDiagramG = () => {
     const svg = d3.select(svgRef.current);
     svg.selectAll("*").remove();
 
-    const width = 1100;
-    const height = 500;
-    const margin = { top: 40, right: 40, bottom: 40, left: 40 };
+    const width = 1100; // Slightly increased width
+    const height = 550; // Increased height for better spacing
+    const margin = { top: 60, right: 60, bottom: 60, left: 60 }; // Increased margins
 
     svg.attr("width", width).attr("height", height);
 
@@ -25,9 +25,10 @@ const SankeyDiagramG = () => {
         "Adult Male",
         "Old Female",
         "Adult Female",
-        "Neurologist",
         "Ophthalmologist",
-        "PCP",
+        "Neurologist",
+        "Wheelchair or Sightloss",
+        "Mild Symptoms",
       ])
       .range([
         "#42A5F5", // Bright Blue for Patients
@@ -37,9 +38,10 @@ const SankeyDiagramG = () => {
         "#4DB6AC", // Bright Teal for Adult Male
         "#FFD54F", // Bright Yellow for Old Female
         "#BA68C8", // Bright Purple for Adult Female
-        "#8D6E63", // Earthy Brown for Neurologist
         "#9C27B0", // Bright Purple for Ophthalmologist
-        "#FFC107", // Bright Amber for PCP
+        "#8D6E63", // Earthy Brown for Neurologist
+        "#FFC107", // Bright Amber for Wheelchair or Sightloss
+        "#8E24AA", // Deep Purple for Mild Symptoms
       ]);
 
     const data = {
@@ -51,9 +53,10 @@ const SankeyDiagramG = () => {
         { name: "Adult Male", value: 20 },
         { name: "Old Female", value: 4 },
         { name: "Adult Female", value: 72 },
-        { name: "Neurologist", value: 50 },
-        { name: "Ophthalmologist", value: 50 },
-        { name: "PCP", value: 8 },
+        { name: "Ophthalmologist", value: 32 },
+        { name: "Neurologist", value: 68 },
+        { name: "Wheelchair or Sightloss", value: 64 },
+        { name: "Mild Symptoms", value: 36 },
       ],
       links: [
         { source: 0, target: 1, value: 24 },
@@ -62,21 +65,22 @@ const SankeyDiagramG = () => {
         { source: 1, target: 4, value: 20 },
         { source: 2, target: 5, value: 4 },
         { source: 2, target: 6, value: 72 },
-        { source: 3, target: 7, value: 4 },
-        { source: 4, target: 7, value: 10 },
-        { source: 4, target: 8, value: 10 },
-        { source: 5, target: 7, value: 2 },
-        { source: 5, target: 8, value: 2 },
-        { source: 6, target: 9, value: 8 },
-        { source: 6, target: 7, value: 32 },
-        { source: 6, target: 8, value: 32 },
-        { source: 9, target: 7, value: 8 }, // New link from PCP to Neurologist
+        { source: 4, target: 7, value: 8 },
+        { source: 6, target: 7, value: 24 },
+        { source: 3, target: 8, value: 4 },
+        { source: 5, target: 8, value: 4 },
+        { source: 4, target: 8, value: 12 },
+        { source: 6, target: 8, value: 48 },
+        { source: 7, target: 9, value: 16 },
+        { source: 7, target: 10, value: 16 },
+        { source: 8, target: 9, value: 48 },
+        { source: 8, target: 10, value: 20 },
       ],
     };
 
     const sankeyGenerator = sankey()
       .nodeWidth(40)
-      .nodePadding(20)
+      .nodePadding(30) // Increased padding for better separation
       .extent([
         [margin.left, margin.top],
         [width - margin.right, height - margin.bottom],
@@ -86,7 +90,29 @@ const SankeyDiagramG = () => {
 
     const chart = svg.append("g");
 
-    // Links with hover effect
+    // Gradient for links to add depth
+    const defs = svg.append("defs");
+    const linkGradient = defs
+      .selectAll("linearGradient")
+      .data(links)
+      .enter()
+      .append("linearGradient")
+      .attr("id", (d, i) => `linkGradient${i}`)
+      .attr("gradientUnits", "userSpaceOnUse")
+      .attr("x1", (d) => d.source.x1)
+      .attr("x2", (d) => d.target.x0);
+
+    linkGradient
+      .append("stop")
+      .attr("offset", "0%")
+      .attr("stop-color", (d) => colorScale(d.source.name));
+
+    linkGradient
+      .append("stop")
+      .attr("offset", "100%")
+      .attr("stop-color", (d) => colorScale(d.target.name));
+
+    // Links with improved hover effect
     const linkEnter = chart
       .append("g")
       .selectAll(".link")
@@ -96,21 +122,21 @@ const SankeyDiagramG = () => {
       .attr("class", "link")
       .attr("d", sankeyLinkHorizontal())
       .attr("fill", "none")
-      .attr("stroke", (d) => colorScale(d.source.name))
-      .attr("stroke-opacity", 0.4)
+      .attr("stroke", (d, i) => `url(#linkGradient${i})`)
+      .attr("stroke-opacity", 0.5)
       .attr("stroke-width", (d) => Math.max(1, d.width))
       .on("mouseover", function () {
         d3.select(this)
-          .attr("stroke-opacity", 0.8)
+          .attr("stroke-opacity", 0.9)
           .attr("stroke-width", (d) => Math.max(2, d.width * 1.5));
       })
       .on("mouseout", function () {
         d3.select(this)
-          .attr("stroke-opacity", 0.4)
+          .attr("stroke-opacity", 0.5)
           .attr("stroke-width", (d) => Math.max(1, d.width));
       });
 
-    // Nodes with hover effect
+    // Nodes with enhanced hover effect
     const node = chart
       .append("g")
       .selectAll(".node")
@@ -127,11 +153,19 @@ const SankeyDiagramG = () => {
       .attr("fill", (d) => colorScale(d.name))
       .attr("stroke", "#fff")
       .attr("stroke-width", 2)
+      .attr("rx", 5) // Added rounded corners
+      .attr("ry", 5)
       .on("mouseover", function () {
-        d3.select(this).attr("stroke", "#000").attr("stroke-width", 3);
+        d3.select(this)
+          .attr("stroke", "#000")
+          .attr("stroke-width", 3)
+          .attr("opacity", 0.8);
       })
       .on("mouseout", function () {
-        d3.select(this).attr("stroke", "#fff").attr("stroke-width", 2);
+        d3.select(this)
+          .attr("stroke", "#fff")
+          .attr("stroke-width", 2)
+          .attr("opacity", 1);
       });
 
     node
@@ -143,7 +177,18 @@ const SankeyDiagramG = () => {
       .text((d) => `${d.name}: ${d.value}%`)
       .attr("fill", "#000")
       .style("font-size", "12px")
-      .style("font-weight", "bold");
+      .style("font-weight", "bold")
+      .style("pointer-events", "none"); // Prevents text from interfering with hover
+
+    // Add title to the chart
+    svg
+      .append("text")
+      .attr("x", width / 2)
+      .attr("y", margin.top / 2)
+      .attr("text-anchor", "middle")
+      .style("font-size", "16px")
+      .style("font-weight", "bold")
+      .text("Patient Demographics and Healthcare Provider Distribution");
   }, []);
 
   return <svg ref={svgRef}></svg>;
