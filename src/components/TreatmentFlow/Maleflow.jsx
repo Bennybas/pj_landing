@@ -1,167 +1,484 @@
-import React, { useRef, useEffect } from 'react';
-import * as d3 from 'd3';
-import { sankey, sankeyLinkHorizontal } from 'd3-sankey';
+import React from 'react';
 
-const NMOSDTreatmentSankey = () => {
-  const svgRef = useRef(null);
-  const containerRef = useRef(null);
+const CircularBar = ({ 
+  outerRadius = 80, 
+  arcWidth = 25, 
+  percentage_def = 75,
+  percentage_def1 =30,
+  percentage=percentage,
+  percentage1=percentage1,
+  percentage2=percentage2,
+  percentage3=percentage3,
+  percentage4=percentage4,
+  title = "Progress", 
+  plateColor = "#F0F0F0",  // Light gray plate color
+  plateStyle = "plate" ,   
+}) => {
+  // Calculate arc length based on percentage
+  const arcLength = 2 * Math.PI * (percentage / 100);
 
-  useEffect(() => {
-    if (!svgRef.current || !containerRef.current) return;
+  // Semicircle path calculation with gap adjustment
+  const gap = 8;  // Small gap between semicircle and circular progress bar
+  const adjustedRadius = outerRadius + gap;  // Adjust outer radius to create gap
+  const semicirclePath = `
+    M ${outerRadius - adjustedRadius},${outerRadius}
+    A ${adjustedRadius} ${adjustedRadius} 0 0 1 ${outerRadius + adjustedRadius},${outerRadius}
+  `;
+  const semicirclePathB = `
+    M ${outerRadius - adjustedRadius},${outerRadius}
+    A ${adjustedRadius} ${adjustedRadius} 0 0 0 ${outerRadius + adjustedRadius},${outerRadius}
+  `;
 
-    const svg = d3.select(svgRef.current);
-    svg.selectAll("*").remove();
+  // Plate style rendering options
+  const renderPlateStyle = () => {
+    switch (plateStyle) {
+      case "gradient":
+        return (
+          <defs>
+            <radialGradient id="plateGradient">
+              <stop offset="10%" stopColor={plateColor} stopOpacity="0.9"/>
+              <stop offset="95%" stopColor={plateColor} stopOpacity="0.7"/>
+            </radialGradient>
+          </defs>
+        );
+      case "shaded":
+        return (
+          <filter id="plateShading" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur in="SourceAlpha" stdDeviation="3" result="shadow"/>
+            <feOffset dx="1" dy="2"/>
+            <feComposite in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1"/>
+            <feColorMatrix type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.3 0"/>
+          </filter>
+        );
+      default:
+        return null;
+    }
+  };
 
-    const containerWidth = containerRef.current.clientWidth;
-    const width = Math.max(containerWidth, 700);
-    const height = 600; // Slightly increased height for better spacing
-
-    const data = {
-      nodes: [
-        { name: 'Diagnosed\nPatients' },
-        { name: 'Immunosuppressive\n& Anti-Inflammatory\nTherapies' },
-        { name: 'First Line\nTherapy' },
-        { name: 'Second Line\nTherapy' },
-        { name: 'Comprehensive\nSupportive\nCare' },
-      ],
-      links: [
-        { source: 0, target: 1, value: 68 },
-        { source: 0, target: 2, value: 32 }, 
-        { source: 1, target: 2, value: 56 },  
-        { source: 2, target: 3, value: 56 },  
-        { source: 3, target: 4, value: 32 },
-      ]
-    };
-
-    // Enhanced color palette with more contrast and medical theme
-    const colorPalette = [
-      '#E6F3FF',  // Light Blue for Initial Stage
-      '#27ae60',  // Soft Muted Blue for Assessment
-      '#7AB2E0',  // Medium Blue for Primary Therapies
-      '#4090D0',  // Deeper Blue for First Line Treatment
-      '#2A7CAB',  // Strong Blue for Second Line Treatment
-      '#16a085',  // Dark Blue for Supportive Care
-      '#d35400'   // Navy Blue for Advanced Options
-    ];
-
-    const colorScale = d3.scaleOrdinal(colorPalette);
-
-    const sankeyGenerator = sankey()
-      .nodeWidth(40)
-      .nodePadding(60) 
-      .size([width - 150, height - 150]);
-
-    const { nodes, links } = sankeyGenerator({
-      nodes: data.nodes.map(d => ({ ...d })),
-      links: data.links.map(d => ({ ...d }))
-    });
-
-    const chart = svg
-      .attr('width', width)
-      .attr('height', height)
-      .append('g')
-      .attr('transform', 'translate(75,75)');
-
-    // Gradient definitions for links with smoother transition
-    const defs = svg.append('defs');
-    links.forEach((link, i) => {
-      const gradient = defs.append('linearGradient')
-        .attr('id', `gradient-${i}`)
-        .attr('gradientUnits', 'userSpaceOnUse')
-        .attr('x1', link.source.x1)
-        .attr('y1', (link.source.y0 + link.source.y1) / 2)
-        .attr('x2', link.target.x0)
-        .attr('y2', (link.target.y0 + link.target.y1) / 2);
-
-      gradient.append('stop')
-        .attr('offset', '0%')
-        .attr('stop-color', colorScale(link.source.name))
-        .attr('stop-opacity', 0.7);
-
-      gradient.append('stop')
-        .attr('offset', '100%')
-        .attr('stop-color', colorScale(link.target.name))
-        .attr('stop-opacity', 0.9);
-    });
-
-    // Draw links with subtle hover effect
-    chart.append('g')
-      .selectAll('path')
-      .data(links)
-      .enter()
-      .append('path')
-      .attr('d', sankeyLinkHorizontal())
-      .attr('fill', 'none')
-      .attr('stroke', (d, i) => `url(#gradient-${i})`)
-      .attr('stroke-width', d => Math.max(1, d.width))
-      .attr('stroke-opacity', 0.5)
-      .attr('class', 'transition-all duration-200')
-      .on('mouseenter', function () {
-        d3.select(this)
-          .attr('stroke-opacity', 0.8)
-          .attr('stroke-width', d => Math.max(2, d.width * 1.2));
-      })
-      .on('mouseleave', function () {
-        d3.select(this)
-          .attr('stroke-opacity', 0.5)
-          .attr('stroke-width', d => Math.max(1, d.width));
-      });
-
-    // Draw nodes with subtle hover and shadow
-    const node = chart.append('g')
-      .selectAll('rect')
-      .data(nodes)
-      .enter()
-      .append('rect')
-      .attr('x', d => d.x0)
-      .attr('y', d => d.y0)
-      .attr('height', d => d.y1 - d.y0)
-      .attr('width', d => d.x1 - d.x0)
-      .attr('fill', d => colorScale(d.name))
-      .attr('stroke', '#4A90E2')
-      .attr('stroke-width', 1.5)
-      .attr('rx', 10)
-      .attr('ry', 10)
-      .style('cursor', 'pointer')
-      .style('filter', 'drop-shadow(2px 2px 3px rgba(0,0,0,0.1))')
-      .attr('class', 'transition-all duration-300')
-      .on('mouseenter', function () {
-        d3.select(this)
-          .attr('opacity', 0.85)
-          .attr('stroke-width', 2);
-      })
-      .on('mouseleave', function () {
-        d3.select(this)
-          .attr('opacity', 1)
-          .attr('stroke-width', 1.5);
-      });
-
-    // Enhanced labels with more readable positioning
-    chart.append('g')
-      .selectAll('text')
-      .data(nodes)
-      .enter()
-      .append('text')
-      .attr('x', d => d.x0 < width / 2 
-        ? d.x1 + 15  
-        : d.x0 - 15  
-      )
-      .attr('y', d => (d.y1 + d.y0) / 2)
-      .attr('dy', '0.35em')
-      .attr('text-anchor', d => d.x0 < width / 2 ? 'start' : 'end')
-      .text(d => `${d.name} (${d.value || ''}%)`)
-      .attr('font-size', '13px')
-      .attr('fill', '#1A4B7C')
-      .style('font-weight', 'bold')
-      .style('text-shadow', '1px 1px 2px rgba(0,0,0,0.1)');
-
-  }, []);
+  
 
   return (
-    <div ref={containerRef} className="bg-white rounded-lg shadow-md p-4 w-full overflow-x-auto">
-      <svg ref={svgRef} className="w-full"></svg>
+    <div className="flex justify-center items-center space-x-8" style={{ marginTop:'10px', marginLeft:'-50px'}}>
+     
+     {/* First Circular Progress Bar */}
+      <div className="relative" style={{  width: '160px', height: '200px', overflow: 'visible' ,marginTop:'20px' }}>
+      <svg viewBox="10 -80 200 360" width="300" height="360">
+      <defs>
+        <marker
+          id="arrowhead"
+          markerWidth="8"
+          markerHeight="5"
+          refX="0"
+          refY="2.5"
+          orient="auto"
+          markerUnits="strokeWidth"
+        >
+          <path d="M 0 0 L 8 2.5 L 0 5 Z" fill="#0286C2" />
+        </marker>
+      </defs>
+
+          {/* Plate style rendering */}
+          {renderPlateStyle()}
+
+          {/* Outer yellow circle */}
+          <circle cx="80" cy="80" r="80" fill="#FFCA28" />
+
+          {/* Inner plate circle with conditional styling */}
+          <circle 
+            cx="80" 
+            cy="80" 
+            r="50" 
+            fill={plateStyle === "gradient" ? "url(#plateGradient)" : plateStyle === "shaded" ? plateColor : plateColor}
+            filter={plateStyle === "shaded" ? "url(#plateShading)" : undefined}
+          />
+
+          {/* Semicircle Outer Line with gap */}
+          <path
+            d={semicirclePath}
+            fill="none"
+            stroke="#0286C2"
+            strokeWidth="3"
+            marker-end="url(#arrowhead)"
+          />
+          
+
+          {/* Circular progress bar */}
+          <path
+            d={`M 80,30
+                A 50 50 0 ${percentage_def > 50 ? 1 : 0} 1 
+                ${80 + 50 * Math.sin(2 * Math.PI * (percentage / 100))} 
+                ${80 - 50 * Math.cos(2 * Math.PI * (percentage / 100))}`}
+            fill="none"
+            stroke="#b5aeae"
+            strokeWidth={arcWidth}
+          />
+
+
+          {/* Title text below the circle */}
+          <text
+            x="80"
+            y="85"
+            textAnchor="middle"
+            fill="#0286C2"
+            fontSize="30"
+            fontWeight="bold"
+          >
+            68%
+          </text>
+
+          {/* Connecting Line and Text Above the Circle */}
+          <g>
+            {/* Connecting Line */}
+            <line 
+              x1="80" 
+              y1="-10" 
+              x2="80" 
+              y2="-40" 
+              stroke="#0286C2" 
+              strokeWidth="3" 
+            />
+
+            {/* Text Above the Circle */}
+            <text 
+              x="80" 
+              y="-65" 
+              fill="#0f0606" 
+              fontSize="14" 
+              fontWeight="bold"
+            >
+              <tspan x="0" dy="0"  fontSize="12" fill="#666666" fontWeight="400">( Corticosteroids,Plasmapheresis, Crystalloid )</tspan>
+             <tspan x="0" dy="20">Acute Anti-Inflammatory Therapies</tspan>
+             
+            </text>
+          </g>
+        </svg>
+      </div>
+
+      {/* Second Circular Progress Bar */}
+      <div className="relative" style={{  width: '160px', height: '200px', overflow: 'visible' ,marginTop:'20px' }}>
+      <svg viewBox="10 -80 200 360" width="300" height="360">
+        
+          {/* Plate style rendering */}
+          {renderPlateStyle()}
+
+          {/* Outer yellow circle */}
+          <circle cx="80" cy="80" r="80" fill="#FFCA28" />
+
+          {/* Inner plate circle with conditional styling */}
+          <circle 
+            cx="80" 
+            cy="80" 
+            r="50" 
+            fill={plateStyle === "gradient" ? "url(#plateGradient)" : plateStyle === "shaded" ? plateColor : plateColor}
+            filter={plateStyle === "shaded" ? "url(#plateShading)" : undefined}
+          />
+
+          {/* Semicircle Outer Line with gap */}
+          <path
+            d={semicirclePathB}
+            fill="none"
+            stroke="#0286C2"
+            strokeWidth="3"
+            marker-end="url(#arrowhead)"
+          />
+
+          {/* Circular progress bar */}
+          <path
+            d={`M 80,30
+                A 50 50 0 ${percentage_def > 50 ? 1 : 0} 1 
+                ${80 + 50 * Math.sin(2 * Math.PI * (percentage1 / 100))} 
+                ${80 - 50 * Math.cos(2 * Math.PI * (percentage1 / 100))}`}
+            fill="none"
+            stroke="#b5aeae"
+            strokeWidth={arcWidth}
+          />
+
+
+          {/* Title text below the circle */}
+          <text
+            x="80"
+            y="85"
+            textAnchor="middle"
+            fill="#0286C2"
+            fontSize="30"
+            fontWeight="bold"
+          >
+            88%
+          </text>
+
+          {/* Connecting Line and Text Above the Circle */}
+          <g>
+            {/* Connecting Line */}
+            <line 
+              x1="80" 
+              y1="170" 
+              x2="80" 
+              y2="210" 
+              stroke="#0286C2" 
+              strokeWidth="3" 
+            />
+
+            {/* Text Above the Circle */}
+            <text 
+              x="80" 
+              y="225" 
+              
+              fill="#0f0606" 
+              fontSize="14" 
+              fontWeight="bold"
+            >
+              <tspan x="10" dy="0">Second-line Therapy</tspan>
+              <tspan x="-10" dy="20" fontSize="12" fill="#666666" fontWeight="400"> ( Rituximab, Cyclophosphamide,</tspan>
+              <tspan x="0" dy="20" fontSize="12" fill="#666666" fontWeight="400">  Tacrolimus, Azathioprine )</tspan>
+            </text>
+          </g>
+        </svg>
+      </div>
+
+
+
+      {/* ThirdBar */}
+
+     
+      <div className="relative" style={{  width: '160px', height: '200px', overflow: 'visible' ,marginTop:'20px' }}>
+      <svg viewBox="10 -80 200 360" width="300" height="360">
+          {/* Plate style rendering */}
+          {renderPlateStyle()}
+
+          {/* Outer yellow circle */}
+          <circle cx="80" cy="80" r="80" fill="#FFCA28" />
+
+          {/* Inner plate circle with conditional styling */}
+          <circle 
+            cx="80" 
+            cy="80" 
+            r="50" 
+            fill={plateStyle === "gradient" ? "url(#plateGradient)" : plateStyle === "shaded" ? plateColor : plateColor}
+            filter={plateStyle === "shaded" ? "url(#plateShading)" : undefined}
+          />
+
+          {/* Semicircle Outer Line with gap */}
+          <path
+            d={semicirclePath}
+            fill="none"
+            stroke="#0286C2"
+            strokeWidth="3"
+            marker-end="url(#arrowhead)"
+          />
+
+          {/* Circular progress bar */}
+          <path
+            d={`M 80,30
+                A 50 50 0 ${percentage_def > 50 ? 1 : 0} 1 
+                ${80 + 50 * Math.sin(2 * Math.PI * (percentage2 / 100))} 
+                ${80 - 50 * Math.cos(2 * Math.PI * (percentage2 / 100))}`}
+            fill="none"
+            stroke="#b5aeae"
+            strokeWidth={arcWidth}
+          />
+
+          
+          {/* Title text below the circle */}
+          <text
+            x="80"
+            y="85"
+            textAnchor="middle"
+            fill="#0286C2"
+            fontSize="30"
+            fontWeight="bold"
+          >
+           56%
+          </text>
+
+          {/* Connecting Line and Text Above the Circle */}
+          <g>
+            {/* Connecting Line */}
+            <line 
+              x1="80" 
+              y1="-10" 
+              x2="80" 
+              y2="-40" 
+              stroke="#0286C2" 
+              strokeWidth="3" 
+            />
+
+            {/* Text Above the Circle */}
+            <text 
+              x="80" 
+              y="-65" 
+              fill="#0f0606" 
+              fontSize="14" 
+              fontWeight="bold"
+            >
+              <tspan x="0" dy="0" fontSize="12" fill="#666666" fontWeight="400"> ( Eculizumab-Soliris, Tocilizumab )</tspan>
+             <tspan x="0" dy="20">Third Line Therapy</tspan>
+            </text>
+          </g>
+        </svg>
+      </div>
+
+
+
+      {/* Fourth Bar */}
+     
+      <div className="relative" style={{  width: '160px', height: '200px', overflow: 'visible' ,marginTop:'20px' }}>
+      <svg viewBox="10 -80 200 360" width="300" height="360">
+          {/* Plate style rendering */}
+          {renderPlateStyle()}
+
+          {/* Outer yellow circle */}
+          <circle cx="80" cy="80" r="80" fill="#FFCA28" />
+
+          {/* Inner plate circle with conditional styling */}
+          <circle 
+            cx="80" 
+            cy="80" 
+            r="50" 
+            fill={plateStyle === "gradient" ? "url(#plateGradient)" : plateStyle === "shaded" ? plateColor : plateColor}
+            filter={plateStyle === "shaded" ? "url(#plateShading)" : undefined}
+          />
+
+          {/* Semicircle Outer Line with gap */}
+          <path
+            d={semicirclePathB}
+            fill="none"
+            stroke="#0286C2"
+            strokeWidth="3"
+            marker-end="url(#arrowhead)"
+          />
+
+          {/* Circular progress bar */}
+          <path
+            d={`M 80,30
+                A 50 50 0 ${percentage_def1 > 50 ? 1 : 0} 1 
+                ${80 + 50 * Math.sin(2 * Math.PI * (percentage_def1 / 100))} 
+                ${80 - 50 * Math.cos(2 * Math.PI * (percentage_def1 / 100))}`}
+            fill="none"
+            stroke="#b5aeae"
+            strokeWidth={arcWidth}
+          />
+
+          {/* Title text below the circle */}
+          <text
+            x="80"
+            y="85"
+            textAnchor="middle"
+            fill="#0286C2"
+            fontSize="30"
+            fontWeight="bold"
+          >
+            32%
+          </text>
+
+          {/* Connecting Line and Text Above the Circle */}
+          <g>
+            {/* Connecting Line */}
+            <line 
+              x1="80" 
+              y1="170" 
+              x2="80" 
+              y2="210" 
+              stroke="#0286C2" 
+              strokeWidth="3" 
+            />
+
+            {/* Text Above the Circle */}
+            <text 
+              x="80" 
+              y="225" 
+              
+              fill="#0f0606" 
+              fontSize="14" 
+              fontWeight="bold"
+            >
+              <tspan x="0" dy="0">Comprehensive Supportive Care</tspan>
+              
+            </text>
+          </g>
+        </svg>
+      </div>
+
+
+      {/* Fifth Bar */}
+      
+      <div className="relative" style={{  width: '160px', height: '200px', overflow: 'visible' ,marginTop:'20px' }}>
+      <svg viewBox="10 -80 200 360" width="300" height="360">
+          {/* Plate style rendering */}
+          {renderPlateStyle()}
+
+          {/* Outer yellow circle */}
+          <circle cx="80" cy="80" r="80" fill="#FFCA28" />
+
+          {/* Inner plate circle with conditional styling */}
+          <circle 
+            cx="80" 
+            cy="80" 
+            r="50" 
+            fill={plateStyle === "gradient" ? "url(#plateGradient)" : plateStyle === "shaded" ? plateColor : plateColor}
+            filter={plateStyle === "shaded" ? "url(#plateShading)" : undefined}
+          />
+
+          {/* Semicircle Outer Line with gap */}
+          <path
+            d={semicirclePath}
+            fill="none"
+            stroke="#0286C2"
+            strokeWidth="3"
+            marker-end="url(#arrowhead)"
+          />
+
+          {/* Circular progress bar */}
+          <path
+            d={`M 80,30
+                A 50 50 0 ${percentage_def1 > 50 ? 1 : 0} 1 
+                ${80 + 50 * Math.sin(2 * Math.PI * (percentage4 / 100))} 
+                ${80 - 50 * Math.cos(2 * Math.PI * (percentage4 / 100))}`}
+            fill="none"
+            stroke="#b5aeae"
+            strokeWidth={arcWidth}
+          />
+
+        
+
+          {/* Title text below the circle */}
+          <text
+            x="80"
+            y="85"
+            textAnchor="middle"
+            fill="#0286C2"
+            fontSize="30"
+            fontWeight="bold"
+          >
+            24%
+          </text>
+
+          {/* Connecting Line and Text Above the Circle */}
+          <g>
+            {/* Connecting Line */}
+            <line 
+              x1="80" 
+              y1="-10" 
+              x2="80" 
+              y2="-40" 
+              stroke="#0286C2" 
+              strokeWidth="3" 
+            />
+
+            {/* Text Above the Circle */}
+            <text 
+              x="80" 
+              y="-55" 
+              fill="#0f0606" 
+              fontSize="14" 
+              fontWeight="bold"
+            >
+             <tspan x="20" dy="0">LongTerm Care </tspan>
+            </text>
+          </g>
+        </svg>
+      </div>
     </div>
   );
 };
 
-export default NMOSDTreatmentSankey;
+export default CircularBar;

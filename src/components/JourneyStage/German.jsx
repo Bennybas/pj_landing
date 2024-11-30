@@ -12,7 +12,7 @@ import {
 } from 'lucide-react';
 import SankeyDiagramG from '../sankey/sankeyDiagG';
 import PatientDiagnosisSankeyChart from '../TreatmentFlow/Femaleflow.jsx'
-import NMOSDTreatmentSankey from '../TreatmentFlow/Maleflow.jsx'
+import CircularBar from '../TreatmentFlow/Maleflow.jsx'
 
 
 const German = ({ stage, metrics, barriers, findings }) => {
@@ -81,7 +81,63 @@ const German = ({ stage, metrics, barriers, findings }) => {
             { name: '2020', Compliant: 29.17, NonCompliant: 70.83 },
             { name: '2021', Compliant: 14.81, NonCompliant: 85.19 },
             { name: '2022', Compliant: 1.69, NonCompliant: 98.31 },
-          ];          
+          ];      
+          
+          const MisDiagnosis = [
+            {
+              name: 'Misdiagnosed Patients',
+              timeToConfirm: 665.5,
+              timeToStartDiagnosis: 91.6,
+            },
+            {
+              name: 'Correctly Diagnosed Patients',
+              timeToConfirm: 222.95,
+              timeToStartDiagnosis: 49.1,
+            },
+          ];
+
+          const specialistData = [
+            {
+              specialist: 'Neurologist',
+              Patients: 68,
+              correctDiagnosis: 44,
+              misdiagnosed: 24,
+            },
+            {
+              specialist: 'Ophthalmologist',
+              Patients: 32,
+              correctDiagnosis: 24,
+              misdiagnosed: 8,
+            }
+          ];
+          const pathwayData = [
+            { name: 'Optic Neuritis', value: 33.39, color: '#3498db' },
+            { name: 'Lumbar Puncture', value: 26.13, color: '#2ecc71' },
+            { name: 'Acute Myelitis', value: 14.52, color: '#e74c3c' },
+            { name: 'Symptomatic Cerebral', value: 7.26, color: '#9b59b6' },
+            { name: 'Acute Brainstem ', value: 4.35, color: '#f39c12' },
+            { name: 'Area Postrema', value: 2.90, color: '#1abc9c' },
+            { name: 'Acute Diencephalic', value: 1.45, color: '#34495e' }
+          ];
+          const testData = [
+            { name: 'Positive AQP4 Result', value: 84, color: '#2ecc71' },
+            { name: 'Negative AQP4 Result', value: 16, color: '#e74c3c' },
+          ];
+
+          const correctPatientData = [
+            { year: 2018, delay: 11.000000 },
+            { year: 2019, delay: 102.000000 },
+            { year: 2020, delay: 34.333333 },
+            { year: 2021, delay: 9.000000 },
+            { year: 2022, delay: 11.833333 }
+          ];
+        
+          const misdiagnosisData = [
+            { year: 2017, delay: 471.5 },
+            { year: 2018, delay: 1048.0 },
+            { year: 2021, delay: 185.0 }
+          ];
+        
           
           
           
@@ -92,7 +148,13 @@ const German = ({ stage, metrics, barriers, findings }) => {
             aqp4PositivityData:aqp4PositivityData,
             Diagnosisdata:Diagnosisdata,
             complianceData:complianceData,
-            Diag_Age:Diag_Age
+            Diag_Age:Diag_Age,
+            MisDiagnosis:MisDiagnosis,
+            specialistData:specialistData,
+            pathwayData:pathwayData,
+            testData:testData,
+            misdiagnosisData:misdiagnosisData,
+            correctPatientData:correctPatientData
             
           }
         }
@@ -166,7 +228,7 @@ const German = ({ stage, metrics, barriers, findings }) => {
     const chartConfig = getChartData();
     if (!chartConfig) return null;
 
-    const { type, title,Diag_Age,relapseTimingData,aqp4PositivityData,symptomSeverityGroupedData,treatmentNonoral,relapserate,oralTreatment,Adherence,Diagnosisdata,complianceData} = chartConfig;
+    const { type, title,Diag_Age,MisDiagnosis,aqp4PositivityData,specialistData,treatmentNonoral,relapserate,oralTreatment,Adherence,Diagnosisdata,complianceData,pathwayData,testData,correctPatientData,misdiagnosisData} = chartConfig;
 
     switch (type) {
       case 'line':
@@ -180,166 +242,181 @@ const German = ({ stage, metrics, barriers, findings }) => {
         return(
           <div className="w-full space-y-6">
 
-            <div className="grid grid-cols-1 gap-8">
+            <div className="grid grid-cols-3 gap-8">
               <div className="p-6">
-              <h4 className="text-sm font-medium text-gray-900"></h4>
-              < PatientDiagnosisSankeyChart />
+              <h4 className="text-sm font-medium text-gray-900"> Diagnostic Accuracy by Medical Specialists</h4>
+              <div className="aspect-[4/3] w-full">
+              <ResponsiveContainer width="100%" height={400}>
+                  <BarChart 
+                    data={specialistData}
+                    layout="vertical"
+                    margin={{ left: 20, right: 20, bottom: 20 }}
+                    >
+                    <CartesianGrid strokeDasharray="3 3" horizontal />
+                    <XAxis type="number" />
+                    <YAxis dataKey="specialist" angle='-55'type="category" />
+                    <Tooltip 
+                      formatter={(value, name, props) => {
+                        switch(name) {
+                          case 'correctDiagnosis': return [`${value}%`, 'Correct Diagnosis'];
+                          case 'misdiagnosed': return [`${value}%`, 'Misdiagnosed'];
+                          default: return [value, name];
+                        }
+                      }}
+                    />
+                    <Legend 
+                      verticalAlign="top" 
+                      layout="horizontal" 
+                      align="center"
+                    />
+                    <Bar 
+                      dataKey="correctDiagnosis" 
+                      stackId="a" 
+                      fill="#2ecc71" 
+                      name="Correct Diagnosis"
+                    />
+                    <Bar 
+                      dataKey="misdiagnosed" 
+                      stackId="a" 
+                      fill="#e74c3c" 
+                      name="Misdiagnosed"
+                    />
+                  </BarChart>
+                </ResponsiveContainer>
+
+              </div>
+              </div>
+
+              <div className="p-6">
+              <h4 className="text-sm font-medium text-gray-900"> Diagnostic Accuracy by Medical Specialists</h4>
+              <div className="aspect-[4/3] w-full">
+              <ResponsiveContainer width="100%" height={400}>
+                <BarChart data={pathwayData}>
+                  <XAxis dataKey="name" angle={-37} textAnchor="end" interval={0} height={100} />
+                  <YAxis />
+                  <Tooltip />
+                  <Bar dataKey="value" fill="#3498db">
+                    {pathwayData.map((entry) => (
+                      <Cell key={entry.name} fill={entry.color} />
+                    ))}
+                  </Bar>
+                </BarChart>
+              </ResponsiveContainer>
+
+              </div>
+              </div>
+
+              <div className="p-6 bg-white">
+                <h4 className="text-sm font-medium text-gray-900 mb-4">
+                  AQP4 Test Results Distribution
+                </h4>
+                <div className="aspect-[4/3] w-full relative">
+                  <ResponsiveContainer width="100%" height={350}>
+                    <PieChart>
+                      <Pie
+                        data={testData}
+                        dataKey="value"
+                        nameKey="name"
+                        cx="50%"
+                        cy="50%"
+                        innerRadius={80}  // Reduced inner radius
+                        outerRadius={130} // Increased outer radius
+                        paddingAngle={5}
+                        startAngle={90}   // Explicitly set start angle
+                        endAngle={-270}   // Explicitly set end angle
+                        
+                      >
+                        {testData.map((entry) => (
+                          <Cell 
+                            key={entry.name} 
+                            fill={entry.color} 
+                            stroke="#ffffff"  // White border to ensure visibility
+                            strokeWidth={2}
+                          />
+                        ))}
+                      </Pie>
+                      <Tooltip 
+                        contentStyle={{ 
+                          backgroundColor: '#f5f5f5', 
+                          border: '1px solid #d5d5d5' 
+                        }}
+                        formatter={(value, name) => [`${value}%`, name]}
+                      />
+                      <Legend 
+                        layout="centre"
+                        verticalAlign="bottom"
+                        align="right"
+                        iconType="circle"
+                      />
+                    </PieChart>
+                  </ResponsiveContainer>
+                </div>
               </div>
             </div>
-           
-            <div className="grid grid-cols-2 gap-8">
-            <Card className="p-6">
-              <h4 className="text-sm font-medium text-gray-700">Diagnosis Distribution By Gender</h4>
-                <div className="aspect-[4/3] w-full">
 
-                <ResponsiveContainer width="100%" height={400}>
-                  <BarChart data={Diagnosisdata}>
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="Diagnosis" />
-                    <YAxis />
-                    <Tooltip  />
-                    <Legend />
-
-                    <Bar dataKey="Female" stackId="a" fill="#8884d8" />
-                    <Bar dataKey="Male" stackId="a" fill="#82ca9d" />
-                  </BarChart>
-                </ResponsiveContainer>
-                </div>
-              </Card>
-
+            <div className="grid grid-cols-3 gap-6">
               <Card className="p-6">
-              <h4 className="text-sm font-medium text-gray-700">Diagnosis Distribution Percentage by Age Category</h4>
-                <div className="aspect-[4/3] w-full">
-
-
-                <ResponsiveContainer width="100%" height={400}>
-                  <BarChart data={Diag_Age} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+              <h4 className="text-sm font-medium text-gray-700">Time Delays in NMOSD Diagnosis</h4>
+              <div className="aspect-[4/3] w-full">
+              <ResponsiveContainer width="100%" height="100%">
+                  <LineChart>
                     <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="Diagnosis" />
-                    <YAxis />
-                    <Tooltip />
+                    <XAxis 
+                      dataKey="year" 
+                      type="number" 
+                      domain={[2017, 2022]} 
+                      tickFormatter={(value) => value.toString()}
+                    />
+                    <YAxis label={{ value: 'Delay', angle: -90, position: 'insideLeft' }} />
+                    <Tooltip 
+                      labelFormatter={(label) => `Year: ${label}`}
+                      formatter={(value, name) => [value, name]}
+                    />
                     <Legend />
-                    
-                    {/* Bar segments representing different age categories */}
-                    <Bar dataKey="Below0" stackId="a" fill="#8884d8" />
-                    <Bar dataKey="0-19" stackId="a" fill="#82ca9d" />
-                    <Bar dataKey="20-39" stackId="a" fill="#ffc658" />
-                    <Bar dataKey="40-59" stackId="a" fill="#d0ed57" />
-                    <Bar dataKey="60+" stackId="a" fill="#ff7300" />
-                  </BarChart>
+                    <Line 
+                      data={misdiagnosisData} 
+                      dataKey="delay" 
+                      name="Misdiagnosis Delay" 
+                      stroke="#FF6384" 
+                      activeDot={{ r: 8 }}
+                    />
+                    <Line 
+                      data={correctPatientData} 
+                      dataKey="delay" 
+                      name="Correct Patient Delay" 
+                      stroke="#36A2EB" 
+                      activeDot={{ r: 8 }}
+                    />
+                  </LineChart>
                 </ResponsiveContainer>
-                </div>
+              </div>
               </Card>
 
-            </div>
 
-
-
-            
-            <div className="grid grid-cols-2 gap-8">
               <Card className="p-6">
               <h4 className="text-sm font-medium text-gray-700">Compliance rate</h4>
               <div className="aspect-[4/3] w-full" style={{ width: '100%', height: '400px', backgroundColor: 'white', padding: '20px', boxSizing: 'border-box' }}>
-              <ResponsiveContainer width="100%" height="100%">
-                <RadialBarChart
-                  cx="50%"
-                  cy="50%"
-                  innerRadius="30%"
-                  outerRadius="100%"
-                  barSize={20}
-                  data={complianceData}
-                  startAngle={180}
-                  endAngle={0}
-                >
-                  {/* Non-Compliant segment */}
-                  <RadialBar
-                    dataKey="NonCompliant"
-                    stackId="stack"
-                    fill="#f44336"
-                    minAngle={15}
-                    max={100}
-                    label={({ value, index }) => {
-                      const angle = (360 * value) / 100;
-                      return (
-                        <text
-                          x="50%"
-                          y="50%"
-                          fill="white"
-                          textAnchor="middle"
-                          dominantBaseline="middle"
-                          style={{ transform: `rotate(${angle - 90}deg)` }}
-                        >
-                          {`${value.toFixed(2)}%`}
-                        </text>
-                      );
-                    }}
+              <ResponsiveContainer width="100%" height={300}>
+                <LineChart data={complianceData}>
+                  <XAxis dataKey="name" />
+                  <YAxis />
+                  <Tooltip 
+                    formatter={(value, name) => [`${value.toFixed(2)}%`, name]}
                   />
-                  {/* Compliant segment */}
-                  <RadialBar
-                    dataKey="Compliant"
-                    stackId="stack"
-                    fill="#28a745"
-                    minAngle={15}
-                    max={100}
-                    label={({ value, index }) => {
-                      const angle = (360 * value) / 100;
-                      return (
-                        <text
-                          x="50%"
-                          y="50%"
-                          fill="white"
-                          textAnchor="middle"
-                          dominantBaseline="middle"
-                          style={{ transform: `rotate(${angle - 90}deg)` }}
-                        >
-                          {`${value.toFixed(2)}%`}
-                        </text>
-                      );
-                    }}
+                  <Legend />
+                  <Line 
+                    type="monotone" 
+                    dataKey="Compliant" 
+                    stroke="#28a745" 
+                    strokeWidth={3}
                   />
-                  <Tooltip
-                    formatter={(value, name, props) => {
-                      const yearName = props?.payload?.payload?.name || '';
-                      return [`${value}%`, `${yearName} ${name}`];
-                    }}
-                    contentStyle={{
-                      backgroundColor: 'white',
-                      border: '1px solid #555',
-                      borderRadius: '8px',
-                      padding: '5px',
-                    }}
+                  <Line 
+                    type="monotone" 
+                    dataKey="NonCompliant" 
+                    stroke="#f44336" 
+                    strokeWidth={3}
                   />
-                  <Legend
-                    payload={[
-                      { value: 'Non-Compliant', type: 'square', color: '#f44336' },
-                      { value: 'Compliant', type: 'square', color: '#28a745' },
-                    ]}
-                    iconSize={10}
-                    layout="horizontal"
-                    verticalAlign="bottom"
-                    align="center"
-                    wrapperStyle={{
-                      paddingTop: '10px',
-                      fontSize: '12px',
-                      color: '#333',
-                    }}
-                  />
-
-                  {/* Year Labels - Adjust the vertical position to avoid overlap */}
-                  {complianceData.map((entry, index) => (
-                    <text
-                      key={entry.name}
-                      x="50%" // Center horizontally
-                      y={index * 35 + 50} // Adjusting the vertical position to prevent overlap
-                      fill="#333"
-                      fontSize="16px"
-                      textAnchor="middle"
-                      fontWeight="bold"
-                    >
-                      {entry.name}
-                    </text>
-                  ))}
-                </RadialBarChart>
+                </LineChart>
               </ResponsiveContainer>
 
               </div>
@@ -378,8 +455,56 @@ const German = ({ stage, metrics, barriers, findings }) => {
                 </ResponsiveContainer>
                 </div>
               </Card>
-              
+
             </div>
+           
+            {/* <div className="grid grid-cols-2 gap-8">
+            <Card className="p-6">
+              <h4 className="text-sm font-medium text-gray-700">Diagnosis Distribution By Gender</h4>
+                <div className="aspect-[4/3] w-full">
+
+                <ResponsiveContainer width="100%" height={400}>
+                  <BarChart data={Diagnosisdata}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="Diagnosis" />
+                    <YAxis />
+                    <Tooltip  />
+                    <Legend />
+
+                    <Bar dataKey="Female" stackId="a" fill="#8884d8" />
+                    <Bar dataKey="Male" stackId="a" fill="#82ca9d" />
+                  </BarChart>
+                </ResponsiveContainer>
+                </div>
+              </Card>
+
+              <Card className="p-6">
+              <h4 className="text-sm font-medium text-gray-700">Diagnosis Distribution Percentage by Age Category</h4>
+                <div className="aspect-[4/3] w-full">
+
+
+                <ResponsiveContainer width="100%" height={400}>
+                  <BarChart data={Diag_Age} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="Diagnosis" />
+                    <YAxis />
+                    <Tooltip />
+                    <Legend />
+                    
+                    
+                    <Bar dataKey="Below0" stackId="a" fill="#8884d8" />
+                    <Bar dataKey="0-19" stackId="a" fill="#82ca9d" />
+                    <Bar dataKey="20-39" stackId="a" fill="#ffc658" />
+                    <Bar dataKey="40-59" stackId="a" fill="#d0ed57" />
+                    <Bar dataKey="60+" stackId="a" fill="#ff7300" />
+                  </BarChart>
+                </ResponsiveContainer>
+                </div>
+              </Card>
+
+            </div> */}
+
+
 
 
           </div>
@@ -389,9 +514,9 @@ const German = ({ stage, metrics, barriers, findings }) => {
           <div className="w-full space-y-6">
 
             <div className="grid grid-cols-1 gap-8">
-              <div className="p-6">
-              <h4 className="text-sm font-medium text-gray-900"></h4>
-              < NMOSDTreatmentSankey />
+            <h3 className="text-sm font-medium text-gray-900" style={{textAlign:'center',fontSize:'25px'}}> Treatment Flow</h3>
+              <div className="p-6" style={{marginBottom:'200px'}}>
+              < CircularBar percentage={68} percentage1={88}  percentage2={56} percentage3={32} percentage4={24}  />
               </div>
             </div>
            

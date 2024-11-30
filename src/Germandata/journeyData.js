@@ -22,20 +22,19 @@ export const journeyData = [
       }
     ],
     "metrics": [
-      { "value": "30.95%", "label": "Overall Referral Rate" },
-      { "value": "64.29%", "label": "AQP4-IgG Screening Rate" },
+      { "value": "12%", "label": "Overall Referral Rate" },
+      { "value": "100%", "label": "AQP4-IgG Screening Rate" },
       { "value": "6 to 82 years", "label": "Age Statistics: Range " },
+      { "value": "28%" , "label": "Mis-Diagnosis Rate" },
+      { "value": "765.5 days" , "label": "Average Delay Due to Mis-diagnosis" },
     ],
     "barriers": {
-      "physician": [
+      "physician": [  
         {
           "subpoints": [
             {
-              "text": "Delayed referrals due to symptom overlap with common conditions, contributing to a median referral delay of 5.4 months."
+              "text": "Delayed referrals due to symptom overlap with common conditions, contributing to a median referral delay of 14.6 months."
             },
-            {
-              "text": "Insufficient knowledge of NMOSD among PCPs leads to inconsistent use of advanced diagnostics."
-            }
           ]
         }
       ],
@@ -43,10 +42,7 @@ export const journeyData = [
         {
           "subpoints": [
             {
-              "text": "Referral systems lack standardization, resulting in up to 42% of cases requiring multiple consultations before reaching a neurologist."
-            },
-            {
-              "text": "Access to AQP4-IgG tests is uneven, with rural areas reporting a test availability gap of over 25% compared to urban centers."
+              "text": "Access to AQP4-IgG tests is uneven, with Tier B hospitals facing an average delay of 313.10 days, compared to 205.75 days for Tier C hospitals, highlighting a significant gap in diagnostic access."
             }
           ]
         }
@@ -55,11 +51,8 @@ export const journeyData = [
         {
           "subpoints": [
             {
-              "text": "Patients' lack of awareness of NMOSD symptoms leads to an average delay of 4.8 months before seeking medical attention."
+              "text": "Patients' lack of awareness of NMOSD symptoms leads to an delay."
             },
-            {
-              "text": "Financial constraints delay diagnostic testing for 18% of uninsured or underinsured patients."
-            }
           ]
         }
       ]
@@ -88,8 +81,8 @@ export const journeyData = [
       }
     ],
     "metrics": [
-      { "value": "85.19%", "label": "AQP4-IgG Positivity Rate " },
-      { "value": "57.14%", "label": "MRI Confirmation Rate " },
+      { "value": "84%", "label": "AQP4-IgG Positivity Rate " },
+      { "value": "59.08%", "label": "MRI Confirmation Rate" },
       { "value": "1.59", "label": "Average Relapse " },
       { "value": "59.53%", "label": "Average Relapse After Treatment " },
       { "value": "40.47%", "label": "Average Relapse Before Treatment " }
@@ -99,11 +92,9 @@ export const journeyData = [
         {
           "subpoints": [
             {
-              "text": "Misdiagnosis as MS occurs in 22% of NMOSD cases due to overlapping symptoms and lack of clarity in diagnostic criteria."
+              "text": "Misdiagnosis as MS occurs in 28% of NMOSD cases due to overlapping symptoms and lack of clarity in diagnostic criteria."
             },
-            {
-              "text": "Over-reliance on MRI alone leads to missed NMOSD diagnoses in AQP4-IgG-negative cases."
-            }
+            
           ]
         }
       ],
@@ -111,11 +102,8 @@ export const journeyData = [
         {
           "subpoints": [
             {
-              "text": "Insufficient integration between primary and tertiary care causes diagnostic delays averaging 7.2 months."
+              "text": "Over-reliance on MRI alone leads to missed NMOSD diagnoses in AQP4-IgG-negative cases around 14%."
             },
-            {
-              "text": "Laboratory backlogs result in AQP4-IgG test turnaround times exceeding 14 days for 35% of patients."
-            }
           ]
         }
       ],
@@ -123,10 +111,10 @@ export const journeyData = [
         {
           "subpoints": [
             {
-              "text": "Patients delay MRI follow-up appointments, leading to an average diagnostic delay of 2.3 months."
+              "text": "Patients delay MRI follow-up appointments, leading to an average MRI diagnostic delay of 2.09 months."
             },
             {
-              "text": "Fear of invasive procedures discourages 11% of patients from completing necessary tests."
+              "text": "8% of patients discontinued after receiving a diagnosis and AQP4-IgG tests"
             }
           ]
         }
@@ -164,10 +152,7 @@ export const journeyData = [
         {
           "subpoints": [
             {
-              "text": "Lack of training in NMOSD-specific treatments reduces adherence to guidelines, affecting 18% of physicians."
-            },
-            {
-              "text": "Inconsistent monitoring protocols result in delayed treatment adjustments for 21% of patients."
+              "text": "40% of severe patients are receiving treatment in Tier B and C hospitals, limiting access to specialized care and advanced treatments, which delays diagnosis and relapse management."
             }
           ]
         }
@@ -176,10 +161,7 @@ export const journeyData = [
         {
           "subpoints": [
             {
-              "text": "High cost of therapies results in 12% of eligible patients not initiating treatment."
-            },
-            {
-              "text": "Limited access to monoclonal antibodies outside major urban centers affects timely initiation for 28% of patients."
+              "text": "69% of patients experienced relapses, indicating challenges in achieving stable disease control."
             }
           ]
         }
@@ -188,10 +170,7 @@ export const journeyData = [
         {
           "subpoints": [
             {
-              "text": "Side effect concerns lead to 15% of patients discontinuing treatment prematurely."
-            },
-            {
-              "text": "Missed follow-up appointments due to logistical challenges cause delays in relapse management for 8% of patients."
+              "text": "56% of patients experienced sight loss before treatment initiation.Of these, 16% started treatment late, resulting in an average delay of 4 months."
             }
           ]
         }
