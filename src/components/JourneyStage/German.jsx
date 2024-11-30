@@ -11,7 +11,7 @@ import {
   ImageOff
 } from 'lucide-react';
 import SankeyDiagramG from '../sankey/sankeyDiagG';
-import PatientDiagnosisSankeyChart from '../TreatmentFlow/Femaleflow.jsx'
+import TreatmentSwitch from '../TreatmentFlow/Femaleflow.jsx'
 import CircularBar from '../TreatmentFlow/Maleflow.jsx'
 
 
@@ -288,7 +288,7 @@ const German = ({ stage, metrics, barriers, findings }) => {
               </div>
 
               <div className="p-6">
-              <h4 className="text-sm font-medium text-gray-900"> Diagnostic Accuracy by Medical Specialists</h4>
+              <h4 className="text-sm font-medium text-gray-900"> Diagnosis Pathway Distribution</h4>
               <div className="aspect-[4/3] w-full">
               <ResponsiveContainer width="100%" height={400}>
                 <BarChart data={pathwayData}>
@@ -506,7 +506,6 @@ const German = ({ stage, metrics, barriers, findings }) => {
 
 
 
-
           </div>
         )
         case 'pie':
@@ -693,6 +692,11 @@ const German = ({ stage, metrics, barriers, findings }) => {
 
 
               </div>
+
+              <div className="grid grid-cols-1 gap-6">
+              < TreatmentSwitch />
+            </div>
+
               
                 
 

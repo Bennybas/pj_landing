@@ -1,155 +1,285 @@
-import React from 'react';
-import { BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, Pie,PieChart, Cell, Legend, LineChart, Line, ResponsiveContainer } from 'recharts';
+import React, { useCallback } from "react";
+import ReactFlow, { 
+  MiniMap, 
+  Controls, 
+  Background, 
+  useNodesState, 
+  useEdgesState,
+  addEdge,
+  ConnectionLineType
+} from "reactflow";
+import 'reactflow/dist/style.css';
+import './TimelineInfographic.css';
 
-// Patient Entry Visualization
-const SpecialistDiagnosisAccuracyChart = () => {
-  const specialistData = [
-    {
-      specialist: 'Neurologist',
-      Patients: 68,
-      correctDiagnosis: 44,
-      misdiagnosed: 24,
-    },
-    {
-      specialist: 'Ophthalmologist',
-      Patients: 32,
-      correctDiagnosis: 24,
-      misdiagnosed: 8,
+const nodeColors = {
+  steroid: '#FFD700',
+  immunosuppressant: '#4CAF50',
+  monoclonal: '#2196F3',
+  other: '#9C27B0'
+};
+
+const getNodeColor = (label) => {
+  if (label.includes('prednisolone') || label.includes('Kortison') || label.includes('Methylprednisolone') || label.includes('Triamcinolone')) 
+    return nodeColors.steroid;
+  if (label.includes('Cyclophosphamide') || label.includes('Azathioprine')) 
+    return nodeColors.immunosuppressant;
+  if (label.includes('Rituximab') || label.includes('Soliris') || label.includes('Tocilizumab')) 
+    return nodeColors.monoclonal;
+  return nodeColors.other;
+};
+
+const nodes = [
+  { 
+    id: "1", 
+    data: { label: "Prednisolone" }, 
+    position: { x: 100, y: 50 },
+    style: { 
+      background: getNodeColor("Prednisolone"),
+      color: 'black',
+      border: '2px solid rgba(0,0,0,0.3)',
+      borderRadius: '10px',
+      padding: '10px',
+      boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
     }
-  ];
+  },
+  { 
+    id: "2", 
+    data: { label: "Cyclophosphamide" }, 
+    position: { x: 300, y: 50 },
+    style: { 
+      background: getNodeColor("Cyclophosphamide"),
+      color: 'white',
+      border: '2px solid rgba(0,0,0,0.3)',
+      borderRadius: '10px',
+      padding: '10px',
+      boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
+    }
+  },
+  { 
+    id: "3", 
+    data: { label: "Rituximab" }, 
+    position: { x: 200, y: 150 },
+    style: { 
+      background: getNodeColor("Rituximab"),
+      color: 'white',
+      border: '2px solid rgba(0,0,0,0.3)',
+      borderRadius: '10px',
+      padding: '10px',
+      boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
+    }
+  },
+  { 
+    id: "4", 
+    data: { label: "Soliris/Eculizumab" }, 
+    position: { x: 400, y: 150 },
+    style: { 
+      background: getNodeColor("Soliris"),
+      color: 'white',
+      border: '2px solid rgba(0,0,0,0.3)',
+      borderRadius: '10px',
+      padding: '10px',
+      boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
+    }
+  },
+  { 
+    id: "5", 
+    data: { label: "Methylprednisolone" }, 
+    position: { x: 100, y: 250 },
+    style: { 
+      background: getNodeColor("Methylprednisolone"),
+      color: 'black',
+      border: '2px solid rgba(0,0,0,0.3)',
+      borderRadius: '10px',
+      padding: '10px',
+      boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
+    }
+  },
+  { 
+    id: "6", 
+    data: { label: "Plasma Exchange" }, 
+    position: { x: 300, y: 250 },
+    style: { 
+      background: getNodeColor("Plasma"),
+      color: 'black',
+      border: '2px solid rgba(0,0,0,0.3)',
+      borderRadius: '10px',
+      padding: '10px',
+      boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
+    }
+  },
+  { 
+    id: "7", 
+    data: { label: "Triamcinolone" }, 
+    position: { x: 500, y: 250 },
+    style: { 
+      background: getNodeColor("Triamcinolone"),
+      color: 'black',
+      border: '2px solid rgba(0,0,0,0.3)',
+      borderRadius: '10px',
+      padding: '10px',
+      boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
+    }
+  },
+  { 
+    id: "8", 
+    data: { label: "Kortison" }, 
+    position: { x: 100, y: 350 },
+    style: { 
+      background: getNodeColor("Kortison"),
+      color: 'black',
+      border: '2px solid rgba(0,0,0,0.3)',
+      borderRadius: '10px',
+      padding: '10px',
+      boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
+    }
+  },
+  { 
+    id: "9", 
+    data: { label: "Azathioprine" }, 
+    position: { x: 300, y: 350 },
+    style: { 
+      background: getNodeColor("Azathioprine"),
+      color: 'white',
+      border: '2px solid rgba(0,0,0,0.3)',
+      borderRadius: '10px',
+      padding: '10px',
+      boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
+    }
+  },
+  { 
+    id: "10", 
+    data: { label: "Tocilizumab" }, 
+    position: { x: 500, y: 350 },
+    style: { 
+      background: getNodeColor("Tocilizumab"),
+      color: 'white',
+      border: '2px solid rgba(0,0,0,0.3)',
+      borderRadius: '10px',
+      padding: '10px',
+      boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
+    }
+  },
+].map(node => ({
+  ...node,
+  type: 'default',
+  sourcePosition: 'right',
+  targetPosition: 'left'
+}));
+
+const edges = [
+  { id: "e1-4", source: "1", target: "4", label: "4%" },
+  { id: "e1-3", source: "1", target: "3", label: "4%" },
+  { id: "e3-1", source: "3", target: "1", label: "4%" },
+  { id: "e3-5", source: "3", target: "5", label: "8%" },
+  { id: "e5-3", source: "5", target: "3", label: "12%" },
+  { id: "e3-4", source: "3", target: "4", label: "8%" },
+  { id: "e5-6", source: "5", target: "6", label: "4%" },
+  { id: "e5-7", source: "5", target: "7", label: "4%" },
+  { id: "e6-3", source: "6", target: "3", label: "4%" },
+  { id: "e1-2", source: "1", target: "2", label: "4%" },
+  { id: "e5-3", source: "5", target: "3", label: "8%" },
+  { id: "e2-1", source: "2", target: "1", label: "4%" },
+  { id: "e2-3", source: "2", target: "3", label: "4%" },
+  { id: "e8-9", source: "8", target: "9", label: "4%" },
+  { id: "e9-8", source: "9", target: "8", label: "4%" },
+  { id: "e8-4", source: "8", target: "4", label: "4%" },
+  { id: "e8-10", source: "8", target: "10", label: "4%" },
+].map(edge => ({
+  ...edge,
+  type: 'step',
+  style: { 
+    stroke: '#666', 
+    strokeWidth: 2,
+    opacity: 0.7
+  },
+  labelStyle: {
+    fontSize: '10px',
+    background: 'white',
+    padding: '2px 5px',
+    borderRadius: '3px'
+  }
+}));
+
+const TreatmentSwitch = () => {
+  const [flowNodes, setNodes, onNodesChange] = useNodesState(nodes);
+  const [flowEdges, setEdges, onEdgesChange] = useEdgesState(edges);
+
+  const onConnect = useCallback((params) => {
+    setEdges((eds) => addEdge({ ...params, type: 'step' }, eds));
+  }, [setEdges]);
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-md">
-      <h4 className="text-2xl font-bold mb-4 text-gray-800 border-b pb-2">
-        Diagnostic Accuracy by Medical Specialists
-      </h4>
-      <ResponsiveContainer width="100%" height={400}>
-        <BarChart 
-          data={specialistData}
-          layout="vertical"
-          margin={{ left: 20, right: 20, bottom: 20 }}
+    <div className="container" style={{ height: '600px', width: '100%' }}>
+      <h2 className="container-title">
+        NMOSD Treatment Switching Patterns
+      </h2>
+      <div className="diagram-container" style={{ height: '500px' }}>
+        <ReactFlow
+          nodes={flowNodes}
+          edges={flowEdges}
+          onNodesChange={onNodesChange}
+          onEdgesChange={onEdgesChange}
+          onConnect={onConnect}
+          connectionLineType={ConnectionLineType.Step}
+          fitView
+          attributionPosition="bottom-right"
         >
-          <CartesianGrid strokeDasharray="3 3" horizontal />
-          <XAxis type="number" />
-          <YAxis dataKey="specialist" angle='-45'type="category" />
-          <Tooltip 
-            formatter={(value, name, props) => {
-              switch(name) {
-                case 'correctDiagnosis': return [`${value}%`, 'Correct Diagnosis'];
-                case 'misdiagnosed': return [`${value}%`, 'Misdiagnosed'];
-                default: return [value, name];
-              }
-            }}
+          
+          <Background 
+            variant="dots" 
+            gap={20} 
+            size={1} 
+            color="#e0e0e0" 
           />
-          <Legend 
-            verticalAlign="top" 
-            layout="horizontal" 
-            align="center"
-          />
-          <Bar 
-            dataKey="correctDiagnosis" 
-            stackId="a" 
-            fill="#2ecc71" 
-            name="Correct Diagnosis"
-          />
-          <Bar 
-            dataKey="misdiagnosed" 
-            stackId="a" 
-            fill="#e74c3c" 
-            name="Misdiagnosed"
-          />
-        </BarChart>
-      </ResponsiveContainer>
+        </ReactFlow>
+      </div>
+      <div className="legend" style={{
+        display: 'flex', 
+        justifyContent: 'center', 
+        marginTop: '10px'
+      }}>
+        <div style={{ 
+          display: 'flex', 
+          alignItems: 'center', 
+          margin: '0 10px'
+        }}>
+          <div style={{ 
+            width: '15px', 
+            height: '15px', 
+            backgroundColor: nodeColors.steroid, 
+            marginRight: '5px' 
+          }}></div>
+          <span>Steroids</span>
+        </div>
+        <div style={{ 
+          display: 'flex', 
+          alignItems: 'center', 
+          margin: '0 10px'
+        }}>
+          <div style={{ 
+            width: '15px', 
+            height: '15px', 
+            backgroundColor: nodeColors.immunosuppressant, 
+            marginRight: '5px' 
+          }}></div>
+          <span>Immunosuppressants</span>
+        </div>
+        <div style={{ 
+          display: 'flex', 
+          alignItems: 'center', 
+          margin: '0 10px'
+        }}>
+          <div style={{ 
+            width: '15px', 
+            height: '15px', 
+            backgroundColor: nodeColors.monoclonal, 
+            marginRight: '5px' 
+          }}></div>
+          <span>Monoclonal Antibodies</span>
+        </div>
+      </div>
     </div>
   );
 };
 
-// Diagnosis Pathway Visualization
-const DiagnosisPathwayBarChart = () => {
-  const pathwayData = [
-    { name: 'Optic Neuritis', value: 33.39, color: '#3498db' },
-    { name: 'Lumbar Puncture', value: 26.13, color: '#2ecc71' },
-    { name: 'Acute Myelitis', value: 14.52, color: '#e74c3c' },
-    { name: 'Symptomatic Cerebral', value: 7.26, color: '#9b59b6' },
-    { name: 'Acute Brainstem ', value: 4.35, color: '#f39c12' },
-    { name: 'Area Postrema', value: 2.90, color: '#1abc9c' },
-    { name: 'Acute Diencephalic', value: 1.45, color: '#34495e' }
-  ];
-
-  return (
-    <div className="bg-white p-4 rounded-lg shadow-md">
-      <h3 className="text-xl font-semibold mb-4">Diagnosis Pathway Distribution</h3>
-      <ResponsiveContainer width="100%" height={400}>
-        <BarChart data={pathwayData}>
-          <XAxis dataKey="name" angle={-37} textAnchor="end" interval={0} height={100} />
-          <YAxis />
-          <Tooltip />
-          <Bar dataKey="value" fill="#3498db">
-            {pathwayData.map((entry) => (
-              <Cell key={entry.name} fill={entry.color} />
-            ))}
-          </Bar>
-        </BarChart>
-      </ResponsiveContainer>
-    </div>
-  );
-};
-
-// AQP4 Test Result Visualization
-const AQP4TestResultDonutChart = () => {
-  const testData = [
-    { name: 'Positive AQP4 Result', value: 84, color: '#2ecc71' },
-    { name: 'Negative AQP4 Result', value: 14, color: '#e74c3c' },
-  ];
-
-  return (
-    <div className="bg-white p-6 rounded-lg shadow-md">
-      <h3 className="text-2xl font-bold mb-4 text-gray-800 border-b pb-2">
-        AQP4 Test Results Distribution
-      </h3>
-      <ResponsiveContainer width="100%" height={300}>
-        <PieChart>
-          <Pie
-            data={testData}
-            dataKey="value"
-            nameKey="name"
-            cx="50%"
-            cy="50%"
-            innerRadius={90}  // Creates donut effect
-            outerRadius={120}
-            paddingAngle={5}
-            label={({name, percent}) => `${name} (${(percent * 100).toFixed(1)}%)`}
-          >
-            {testData.map((entry) => (
-              <Cell key={entry.name} fill={entry.color} />
-            ))}
-          </Pie>
-          <Tooltip 
-            formatter={(value, name) => [`${value}%`, name]}
-          />
-          <Legend 
-            layout="vertical"
-            verticalAlign="middle"
-            align="right"
-          />
-        </PieChart>
-      </ResponsiveContainer>
-      
-      {/* Added insights section */}
-      
-    </div>
-  );
-};
-
-// Main Composite Component
-const PatientDiagnosisVisualizations = () => {
-  return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-      <SpecialistDiagnosisAccuracyChart />
-      <DiagnosisPathwayBarChart />
-      <AQP4TestResultDonutChart />
-    </div>
-  );
-};
-
-export default PatientDiagnosisVisualizations;
+export default TreatmentSwitch;
