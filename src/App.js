@@ -1,9 +1,9 @@
-import NmosD from './components/Nmosd/Nmosd';
+import PatientJourneyLanding from './components/landing/Landing';
 
 function App() {
   return (
     <div>
-      <NmosD />
+      <PatientJourneyLanding />
     </div>
   );
 }
