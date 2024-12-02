@@ -39,7 +39,7 @@ const PatientJourneyLanding = () => {
           icon: Eye,
           gradient: 'from-[#c98b27] to-[#8295ae]',
           description: 'Specialized neuroimmunological disorder support',
-          onClick: () => handleRedirect('https://sma-patient-journey-v2.onrender.com')
+          onClick: () => handleRedirect('https://nmosd-patient-journey.onrender.com/')
         },
       ],
     },
