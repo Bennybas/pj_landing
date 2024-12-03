@@ -61,7 +61,7 @@ const PatientJourneyLanding = () => {
   return (
     <div className="min-h-screen bg-[#9bc0e2] text-[#004567]">
       {/* Header */}
-      <div className="bg-[#c98b27] text-white shadow-md">
+      <div className="bg-gradient-to-r from-[#c98b27]/70 to-[#c98b27]/70 p-3 mb-6 shadow-lg rounded-lg border border-[#004567]/30 text-white shadow-md">
         <div className="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
           <div className="flex items-center space-x-4">
             <div className="w-32 h-32 bg-[#004567] rounded-full flex items-center justify-center shadow-lg overflow-hidden">
